@@ -11,6 +11,7 @@ FIXED:
 *Square class now has a default multiplier of x1
 *Tiles were given a custom comparison operator
 *Changed structure of the project, the dictionary is now in a separate folder
+*structure of the dictionary class
 0.0.2 - 2023-08-19
 ADDED:
 *List of words in Spanish considered legal for this version of Scrabble. 
