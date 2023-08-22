@@ -42,6 +42,7 @@ class Tilebag:
         random.shuffle(self.tiles)
 
     def take(self, count):
+        random.shuffle(self.tiles)
         tiles = []
         for _ in range(count):
             tiles.append(self.tiles.pop())

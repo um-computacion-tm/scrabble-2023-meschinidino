@@ -2,7 +2,7 @@ from game.tile import Tile
 
 
 class Square:
-    def __init__(self, multiplier: int = None, letter: Tile = None):
+    def __init__(self, multiplier: int = 1, letter: Tile = None):
         self.multiplier = multiplier
         self.letter = letter
 
@@ -10,4 +10,8 @@ class Square:
         return self.letter is not None
 
     def has_multiplier(self):
-        return self.multiplier is not None
+        return self.multiplier > 1
+
+    def insert_letter(self, letter):
+        if not self.has_letter():
+            self.letter = letter

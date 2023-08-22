@@ -1,10 +1,12 @@
 import unittest
+from unittest.mock import patch
 
+from game.board import Board
+from game.dictionary import Dictionary
+from game.player import Player
+from game.square import Square
 from game.tile import Tile
 from game.tilebag import Tilebag, LETTERS
-from game.square import Square
-from unittest.mock import patch
-from game.dictionary import Dictionary
 
 
 class TestTiles(unittest.TestCase):
@@ -12,6 +14,36 @@ class TestTiles(unittest.TestCase):
         tile = Tile('A', 1)
         self.assertEqual(tile.letter, 'A')
         self.assertEqual(tile.value, 1)
+
+    def test_tile_repr(self):
+        tile = Tile('A', 1)
+        expected_repr = "Tile(letter='A', value=1)"
+        self.assertEqual(repr(tile), expected_repr)
+
+    def test_eq_same_objects(self):
+        tile = Tile('A', 1)
+        self.assertTrue(tile == tile)
+
+    def test_eq_different_objects(self):
+        tile1 = Tile('A', 1)
+        tile2 = Tile('A', 1)
+
+        self.assertTrue(tile1 == tile2)
+        self.assertTrue(tile2 == tile1)
+
+    def test_neq_different_objects(self):
+        tile1 = Tile('A', 1)
+        tile2 = Tile('B', 2)
+
+        self.assertTrue(tile1 != tile2)
+        self.assertTrue(tile2 != tile1)
+
+    def test_eq_invalid_comparison(self):
+        tile = Tile('A', 1)
+        other_object = 'Not a Tile object'
+
+        self.assertFalse(tile == other_object)
+        self.assertFalse(other_object == tile)
 
 
 class TestBagTiles(unittest.TestCase):
@@ -58,7 +90,7 @@ class TestBagTiles(unittest.TestCase):
 class TestSquare(unittest.TestCase):
     def test_empty_square(self):
         square = Square()
-        self.assertEqual(square.multiplier, None)
+        self.assertEqual(square.multiplier, 1)
         self.assertEqual(square.letter, None)
 
     def test_square_letter(self):
@@ -86,15 +118,69 @@ class TestSquare(unittest.TestCase):
         square = Square(letter=Tile('A', 1))
         self.assertTrue(square.has_letter())
 
+    def test_insert_letter_full(self):
+        square = Square(letter=Tile('A', 1))
+        square.insert_letter(Tile('B', 1))
+        self.assertEqual(square, square)
+
+    def test_insert_letter_empty(self):
+        square = Square()
+        square.insert_letter((Tile('A', 1)))
+        self.assertEqual(square.letter.letter, 'A')
+
 
 class TestDictionary(unittest.TestCase):
     def test_dictionary(self):
-        dictionary = Dictionary('game/dictionary.txt')
+        dictionary = Dictionary('dictionaries/dictionary.txt')
         self.assertTrue(dictionary.has_word('arbol'))
 
     def test_word_false(self):
-        dictionary = Dictionary('game/dictionary.txt')
+        dictionary = Dictionary('dictionaries/dictionary.txt')
         self.assertFalse(dictionary.has_word('willkommen'))
+
+
+class TestPlayer(unittest.TestCase):
+    def test_player(self):
+        player = Player()
+        self.assertEqual(player.score, 0)
+        self.assertEqual(len(player.tiles), 0)
+
+    def test_player_score(self):
+        player = Player()
+        player.increase_score(2)
+        self.assertEqual(player.score, 2)
+
+    def test_player_score_many(self):
+        player = Player()
+        player.increase_score(2)
+        player.increase_score(2)
+        self.assertEqual(player.score, 4)
+
+    def test_player_draw(self):
+        player = Player()
+        bag = Tilebag()
+        player.draw_tiles(bag, 2)
+        self.assertEqual(len(player.tiles), 2)
+
+    def test_player_exchange(self):
+        player = Player()
+        bag = Tilebag()
+        player.draw_tiles(bag, 2)
+        tile = player.tiles[0]
+        player.exchange_tile(player.tiles[0], bag)
+        self.assertNotEqual(player.tiles[1], tile)
+
+
+class TestBoard(unittest.TestCase):
+    def test_board_size(self):
+        board = Board(15, 15)
+        self.assertEqual(board.rows, 15)
+        self.assertEqual(board.columns, 15)
+
+    def test_board_place_tile(self):
+        board = Board(15, 15)
+        board.place_tile(7, 7, Tile('A', 1))
+        self.assertEqual(board.grid[7][7].letter, Tile('A', 1))
 
 
 if __name__ == '__main__':
