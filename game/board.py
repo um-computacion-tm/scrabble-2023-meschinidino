@@ -9,4 +9,4 @@ class Board:
 
     def place_tile(self, row, col, tile):
         if 0 <= row < self.rows and 0 <= col < self.columns:
-            self.grid[row][col].insert_letter(tile)
+            self.grid[row][col].set_letter(tile)
