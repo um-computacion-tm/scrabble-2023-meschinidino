@@ -1,3 +1,7 @@
+0.0.4 - 2023-08-23
+*Rearranged files
+*Added methods to the Square class
+*Added a Scrabble class WIP
 0.0.3 - 2023-08-21
 ADDED:
 *Player class

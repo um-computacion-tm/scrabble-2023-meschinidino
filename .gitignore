@@ -10,6 +10,7 @@
 .idea/**/dictionaries
 .idea/**/shelf
 .coverage
+.coveragerc
 # AWS User-specific
 .idea/**/aws.xml
 
