@@ -11,3 +11,8 @@ class Tile:
     def __repr__(self):
         return f"Tile(letter='{self.letter}', value={self.value})"
 
+    def get_value(self):
+        return self.value
+
+    def get_letter(self):
+        return self.letter

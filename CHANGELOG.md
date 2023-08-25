@@ -1,3 +1,10 @@
+0.0.5 - 2023-08-25
+FIXED:
+*tilebag class now detects if you're drawing more tiles than there are
+ADDED:
+*Functions to the Tile class, get and set
+*Word score function to the board class
+*Score calculations to the square class per square
 0.0.4 - 2023-08-23
 *Rearranged files
 *Added methods to the Square class

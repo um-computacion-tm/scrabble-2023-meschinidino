@@ -7,7 +7,7 @@ from game.tile import Tile
 class TestSquare(unittest.TestCase):
     def test_empty_square(self):
         square = Square()
-        self.assertEqual(square.multiplier, 1)
+        self.assertEqual(square.letter_multiplier, 1)
         self.assertEqual(square.letter, None)
 
     def test_square_letter(self):

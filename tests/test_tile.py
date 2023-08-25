@@ -38,6 +38,10 @@ class TestTiles(unittest.TestCase):
         self.assertFalse(tile == other_object)
         self.assertFalse(other_object == tile)
 
+    def test_get_tile(self):
+        tile = Tile('A', 1)
+        self.assertEqual(tile.letter, tile.get_letter())
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -10,7 +10,5 @@ class TestScrabble(unittest.TestCase):
         self.assertEqual(len(game.players), 1)
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

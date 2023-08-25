@@ -1,6 +1,7 @@
 from game.board import Board
 from game.player import Player
 from game.tilebag import Tilebag
+from game.dictionary import Dictionary
 
 
 class ScrabbleGame:
@@ -8,6 +9,6 @@ class ScrabbleGame:
         self.board = Board(15, 15)
         self.tilebag = Tilebag()
         self.players = []
+        self.dictionary = Dictionary('dictionaries/dictionary.txt')
         for i in range(amount):
             self.players.append(Player())
-
