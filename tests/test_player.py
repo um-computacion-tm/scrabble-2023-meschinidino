@@ -1,6 +1,6 @@
 import unittest
 from game.player import Player
-from game.tilebag import Tilebag, LETTERS
+from game.tilebag import Tilebag
 
 
 class TestPlayer(unittest.TestCase):
