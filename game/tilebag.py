@@ -32,7 +32,7 @@ LETTERS = {'A': [1, 12],
            'Z': [7, 1]}
 
 
-class CantidadDeFichasSuperaTotal(Exception):
+class DrawingMoreThanAvaliable(Exception):
     pass
 
 
@@ -49,7 +49,7 @@ class Tilebag:
         random.shuffle(self.tiles)
         tiles = []
         if count > len(self.tiles):
-            raise CantidadDeFichasSuperaTotal
+            raise DrawingMoreThanAvaliable
         for _ in range(count):
             tiles.append(self.tiles.pop())
         return tiles
