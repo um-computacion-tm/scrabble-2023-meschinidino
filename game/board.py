@@ -1,12 +1,23 @@
 from game.square import Square
 
 
-class Board:
-    def __init__(self, rows, columns):
-        self.rows = rows
-        self.columns = columns
-        self.grid = [[Square() for _ in range(columns)] for _ in range(rows)]
+COLUMNS = 15
+ROWS = 15
 
-    def place_tile(self, row, col, tile):
-        if 0 <= row < self.rows and 0 <= col < self.columns:
-            self.grid[row][col].set_letter(tile)
+class PlacementOutOfBounds(Exception):
+    pass
+
+
+class Board:
+    def __init__(self):
+        self.rows = ROWS
+        self.columns = COLUMNS
+        self.grid = [[Square() for _ in range(self.columns)] for _ in range(self.rows)]
+
+    def place_tile(self, row, column, tile):
+        if not (0 <= row < self.rows and 0 <= column < self.columns):
+            raise PlacementOutOfBounds("Placement is outside the valid boundaries.")
+        self.grid[row][column].set_letter(tile)
+
+    def get_tile(self, row, column):
+        return self.grid[row][column]

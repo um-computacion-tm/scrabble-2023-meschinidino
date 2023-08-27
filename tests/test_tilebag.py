@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from game.tile import Tile
-from game.tilebag import Tilebag, LETTERS
+from game.tilebag import Tilebag, LETTERS, DrawingMoreThanAvaliable
 
 
 class TestBagTiles(unittest.TestCase):
@@ -43,6 +43,11 @@ class TestBagTiles(unittest.TestCase):
             len(bag.tiles),
             initial_tile_count + len(put_tiles),
         )
+
+    def test_take_too_many(self):
+        bag = Tilebag()
+        with self.assertRaises(DrawingMoreThanAvaliable):
+            bag.take(1000000000)
 
 
 if __name__ == '__main__':

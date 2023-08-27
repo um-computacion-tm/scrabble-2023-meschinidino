@@ -1,6 +1,6 @@
 import unittest
 from game.player import Player
-from game.tilebag import Tilebag, LETTERS
+from game.tilebag import Tilebag
 
 
 class TestPlayer(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestPlayer(unittest.TestCase):
         player.draw_tiles(bag, 2)
         tile = player.tiles[0]
         player.exchange_tile(player.tiles[0], bag)
-        self.assertNotEqual(player.tiles[1], tile)
+        self.assertFalse(tile == player.tiles[0])
 
 
 if __name__ == '__main__':
