@@ -19,5 +19,6 @@ class TestBoard(unittest.TestCase):
             board = Board()
             board.place_tile(16, 7, Tile('A', 1))
 
+
 if __name__ == '__main__':
     unittest.main()
