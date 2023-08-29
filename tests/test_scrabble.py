@@ -1,5 +1,5 @@
 import unittest
-from game.scrabble import ScrabbleGame
+from game.scrabble import ScrabbleGame, WordOutOfBounds
 from game.board import Board
 from game.tile import Tile
 from game.tilebag import Tilebag
@@ -21,7 +21,7 @@ class TestScrabble(unittest.TestCase):
                 Tile('L', 1)]
         # game.insert_word(word, row=7, column=7, 'horizontal')
 
-    def test_board_score(self):
+    def test_word_score(self):
         game = ScrabbleGame(1)
         board = Board()
         letters = []
@@ -31,10 +31,10 @@ class TestScrabble(unittest.TestCase):
         board.place_tile(7, 10, Tile('O', 1))
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
-            letters.append(board.get_tile(7, 7 + i))
+            letters.append(board.get_square(7, 7 + i))
         self.assertEqual(5, game.word_score(letters))
 
-    def test_board_score_multipliers(self):
+    def test_word_score_multipliers(self):
         game = ScrabbleGame(1)
         board = Board()
         board.grid[7][7].set_multiplier(2)
@@ -46,16 +46,56 @@ class TestScrabble(unittest.TestCase):
         board.place_tile(7, 10, Tile('O', 1))
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
-            letters.append(board.get_tile(7, 7 + i))
+            letters.append(board.get_square(7, 7 + i))
         self.assertEqual(12, game.word_score(letters))
 
-    def board_test_score_2(self):
-        board = Board()
-        board.grid[7][7].set_multiplier(2)
-        board.place_tile(7, 7, Tile('A', 1))
-        self.assertEqual(board.get_tile(7, 7), Tile('A', 1))
-        self.assertEqual(board.grid[7][7].get_multiplier(), 2)
+    def test_place_word_horizontal(self):
+        game = ScrabbleGame(1)
+        tiles = [Tile('A', 1),
+                 Tile('R', 1),
+                 Tile('B', 1),
+                 Tile('O', 1),
+                 Tile('L', 1)]
+        game.place_word(tiles, 7, 7, 'horizontal')
+        self.assertEqual(game.board.grid[7][7].letter, Tile('A', 1))
+        self.assertEqual(game.board.grid[7][8].letter, Tile('R', 1))
+        self.assertEqual(game.board.grid[7][9].letter, Tile('B', 1))
+        self.assertEqual(game.board.grid[7][10].letter, Tile('O', 1))
+        self.assertEqual(game.board.grid[7][11].letter, Tile('L', 1))
 
+    def test_place_word_vertical(self):
+        game = ScrabbleGame(1)
+        tiles = [Tile('A', 1),
+                 Tile('R', 1),
+                 Tile('B', 1),
+                 Tile('O', 1),
+                 Tile('L', 1)]
+        game.place_word(tiles, 7, 7, 'vertical')
+        self.assertEqual(game.board.grid[7][7].letter, Tile('A', 1))
+        self.assertEqual(game.board.grid[8][7].letter, Tile('R', 1))
+        self.assertEqual(game.board.grid[9][7].letter, Tile('B', 1))
+        self.assertEqual(game.board.grid[10][7].letter, Tile('O', 1))
+        self.assertEqual(game.board.grid[11][7].letter, Tile('L', 1))
+
+    def test_place_word_horizontal_outside(self):
+        game = ScrabbleGame(1)
+        tiles = [Tile('A', 1),
+                 Tile('R', 1),
+                 Tile('B', 1),
+                 Tile('O', 1),
+                 Tile('L', 1)]
+        with self.assertRaises(WordOutOfBounds):
+            game.place_word(tiles, 7, 12, 'horizontal')
+
+    def test_place_word_vertical_outside(self):
+        game = ScrabbleGame(1)
+        tiles = [Tile('A', 1),
+                 Tile('R', 1),
+                 Tile('B', 1),
+                 Tile('O', 1),
+                 Tile('L', 1)]
+        with self.assertRaises(WordOutOfBounds):
+            game.place_word(tiles, 12, 7, 'vertical')
 
 
 

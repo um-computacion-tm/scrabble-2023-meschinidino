@@ -1,5 +1,13 @@
+0.0.5 - 2023-08-28
+FIXED:
+*Methods from the board class
+ADDED:
+*Another method to the board class that returns the tile inside a certain square.
+*A method that will place a word into the board to the ScrabbleGame class.
 0.0.4 - 2023-08-23
+FIXED:
 *Rearranged files
+ADDED:
 *Added methods to the Square class
 *Added a Scrabble class WIP
 0.0.3 - 2023-08-21

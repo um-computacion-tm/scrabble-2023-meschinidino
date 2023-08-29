@@ -19,6 +19,13 @@ class TestBoard(unittest.TestCase):
             board = Board()
             board.place_tile(16, 7, Tile('A', 1))
 
+    def test_board_score_2(self):
+        board = Board()
+        board.grid[7][7].set_multiplier(2)
+        board.place_tile(7, 7, Tile('A', 1))
+        self.assertEqual(board.get_tile(7, 7), Tile('A', 1))
+        self.assertEqual(board.grid[7][7].get_multiplier(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

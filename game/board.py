@@ -1,8 +1,8 @@
 from game.square import Square
 
-
 COLUMNS = 15
 ROWS = 15
+
 
 class PlacementOutOfBounds(Exception):
     pass
@@ -19,5 +19,8 @@ class Board:
             raise PlacementOutOfBounds("Placement is outside the valid boundaries.")
         self.grid[row][column].set_letter(tile)
 
-    def get_tile(self, row, column):
+    def get_square(self, row, column):
         return self.grid[row][column]
+
+    def get_tile(self, row, column):
+        return self.grid[row][column].get_letter()
