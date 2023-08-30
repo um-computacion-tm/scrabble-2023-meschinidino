@@ -7,7 +7,7 @@ class Square:
         self.word_multiplier = None
         self.letter = None
         self.multiplier_type = None
-        self.multipler_up = True
+        self.multiplier_up = True
 
     def has_letter(self):
         return self.letter is not None
@@ -23,7 +23,7 @@ class Square:
 
     def multiplier_is_up(self):
         if self.has_letter():
-            self.multipler_up = False
+            self.multiplier_up = False
 
     def get_letter(self):
         return self.letter
@@ -34,7 +34,9 @@ class Square:
         self.multiplier_is_up()
 
     def individual_score(self):
-        return self.letter.get_value() * self.letter_multiplier
+        if self.has_letter():
+            return self.letter.get_value() * self.letter_multiplier
+        return 0
 
     def set_multiplier_type(self, word):
         self.multiplier_type = word
@@ -47,4 +49,3 @@ class Square:
 
     def set_word_multiplier(self, amount):
         self.word_multiplier = amount
-

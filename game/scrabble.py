@@ -1,4 +1,3 @@
-import game.board
 from game.board import Board
 from game.player import Player
 from game.tilebag import Tilebag
@@ -31,22 +30,39 @@ class ScrabbleGame:
                 word_multipliers += square.word_multiplier
                 square.multiplier_is_up()
             score += square.individual_score()
+            square.multiplier_is_up()
         if word_multipliers != 0:
             return score * word_multipliers
         return score
-    # WORK IN PROGRESS
-    # def player_turn(self):
-    #     pass
-    #WORK IN PROGRESS
+
+    def change_player_index(self):
+        if self.current_player_index == len(self.players) - 1:
+            self.current_player_index = 0
+        else:
+            self.current_player_index += 1
+
+    def player_turn(self, action):
+        if action == 'pass':
+            self.change_player_index()
 
     def place_word(self, word, starting_row, starting_column, direction):
         if direction.lower() == 'horizontal':
-            if starting_column + len(word) > 15:
-                raise WordOutOfBounds
-            for i in range(len(word)):
-                self.board.place_tile(starting_row, i + starting_column, word[i])
+            self.place_horizontal(word, starting_row, starting_column)
         if direction.lower() == 'vertical':
-            if starting_row + len(word) > 15:
-                raise WordOutOfBounds
-            for i in range(len(word)):
-                self.board.place_tile(i + starting_row, starting_column, word[i])
+            self.place_vertical(word, starting_row, starting_column)
+
+    def place_horizontal(self, word, starting_row, starting_column):
+        if starting_column + len(word) > 15:
+            raise WordOutOfBounds
+        for i in range(len(word)):
+            if self.board.get_square(starting_row, i + starting_column).has_letter():
+                continue
+            self.board.place_tile(starting_row, i + starting_column, word[i])
+
+    def place_vertical(self, word, starting_row, starting_column):
+        if starting_row + len(word) > 15:
+            raise WordOutOfBounds
+        for i in range(len(word)):
+            if self.board.get_square(starting_row + i, starting_column).has_letter():
+                continue
+            self.board.place_tile(i + starting_row, starting_column, word[i])
