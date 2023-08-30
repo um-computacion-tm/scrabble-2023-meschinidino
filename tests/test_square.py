@@ -60,6 +60,10 @@ class TestSquare(unittest.TestCase):
         square.set_multiplier_type('letter')
         self.assertEqual(square.get_multiplier_type(), 'letter')
 
+    def test_score_tile_empty(self):
+        square = Square()
+        self.assertEqual(square.individual_score(), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
