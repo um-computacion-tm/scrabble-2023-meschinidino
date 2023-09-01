@@ -41,9 +41,9 @@ class ScrabbleGame:
         else:
             self.current_player_index += 1
 
-    # def player_turn(self, action):
-    #     if action == 'pass':
-    #         self.change_player_index()
+    def player_turn(self, action):
+        if action == 'pass':
+            self.change_player_index()
     #     if action == 'play':
     #         word = input("Give a word to enter: ").lower()
     #         row = int(input("State starting row: "))
