@@ -41,9 +41,16 @@ class ScrabbleGame:
         else:
             self.current_player_index += 1
 
-    def player_turn(self, action):
-        if action == 'pass':
-            self.change_player_index()
+    # def player_turn(self, action):
+    #     if action == 'pass':
+    #         self.change_player_index()
+    #     if action == 'play':
+    #         word = input("Give a word to enter: ").lower()
+    #         row = int(input("State starting row: "))
+    #         column = int(input("State starting column"))
+    #         direction = input("State direction (horizontal or vertical)")
+    #         word = self.players[self.current_player_index].give_requested_tiles(word)
+    #         self.place_word(word, row, column, direction)
 
     def place_word(self, word, starting_row, starting_column, direction):
         if direction.lower() == 'horizontal':

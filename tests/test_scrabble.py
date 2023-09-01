@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from game.scrabble import ScrabbleGame, WordOutOfBounds
 from game.board import Board
 from game.tile import Tile
@@ -97,7 +98,7 @@ class TestScrabble(unittest.TestCase):
         with self.assertRaises(WordOutOfBounds):
             game.place_word(tiles, 12, 7, 'vertical')
 
-    def test_player_turn(self):
+    def test_player_turn_pass(self):
         game = ScrabbleGame(2)
         game.player_turn('pass')
         self.assertEqual(game.current_player_index, 1)
@@ -137,6 +138,22 @@ class TestScrabble(unittest.TestCase):
         self.assertEqual(game.board.grid[9][7].letter, Tile('B', 1))
         self.assertEqual(game.board.grid[10][7].letter, Tile('O', 1))
         self.assertEqual(game.board.grid[11][7].letter, Tile('L', 1))
+
+    # @patch('game.scrabble.input', side_effect=['play', '7', '7', 'horizontal'])
+    # def test_turn_word(self, mock_input):
+    #     game = ScrabbleGame(1)
+    #     game.players[game.current_player_index].tiles = [Tile('P', 1),
+    #              Tile('L', 1),
+    #              Tile('A', 1),
+    #              Tile('Y', 1)]
+    #     game.player_turn('play')
+    #     result = game.player_turn('play')
+    #     self.assertTrue(result['success'])
+    #     self.assertEqual(len(game.players[0].tiles), 7)
+    #     self.assertEqual(game.board.get_tile(7, 7).get_letter().get_value(), 1)
+    #     self.assertTrue(game.players[0].score > 0)
+    #     self.assertTrue(len(game.players[0].tiles) < 7)
+
 
 if __name__ == '__main__':
     unittest.main()

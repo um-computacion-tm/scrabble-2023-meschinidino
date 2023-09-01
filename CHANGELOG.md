@@ -1,3 +1,7 @@
+# 0.0.6 - 2023 - 09 - 01
+### [ADDED]
+- Method that checks if a certain player has the tiles neccesary to make the word they intendo to make
+- WIP player turn function
 # 0.0.5 - 2023-08-28
 ### [FIXED]:
 - Methods from the board class
@@ -8,8 +12,8 @@
 ### [FIXED]:
 - Rearranged files
 ### [ADDED]:
-- [ADDED] methods to the Square class
-- [ADDED] a Scrabble class WIP
+- Added methods to the Square class
+- Added a Scrabble class WIP
 # 0.0.3 - 2023-08-21
 ### [ADDED]:
 - Player class
@@ -31,6 +35,6 @@
 - Square class for future implementation of a Board class.
 # 0.0.1 - 2023-08-18
 ### [ADDED]:
-- List of letters to the Tilebag class. The amount of letters is now [FIXED], as well as their score.
+- List of letters to the Tilebag class. The amount of letters is now Fixed, as well as their score.
 ### [FIXED]:
-- [FIXED] tests in order to stay relevant and evaluate the new format of the Tilebag class
+- Fixed tests in order to stay relevant and evaluate the new format of the Tilebag class
