@@ -51,6 +51,11 @@ class TestPlayer(unittest.TestCase):
         result = player.give_requested_tiles(word)
         self.assertEqual(len(result), len(word))
 
+    def test_give_tiles_empty(self):
+        player = Player()
+        with self.assertRaises(LetterNotFound):
+            result = player.give_requested_tiles("a")
+
 
 if __name__ == '__main__':
     unittest.main()

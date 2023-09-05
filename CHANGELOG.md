@@ -1,3 +1,10 @@
+# 0.0.7 - 2023 - 09 - 04
+### [FIXED]
+- Methods for the square class, renamed them for better clarity
+- Refactored references to old method names to use the improved ones
+### [ADDED]
+- A method that allows printing of each Square
+- WIP method to print the whole board
 # 0.0.6 - 2023 - 09 - 01
 ### [ADDED]
 - Method that checks if a certain player has the tiles neccesary to make the word they intendo to make

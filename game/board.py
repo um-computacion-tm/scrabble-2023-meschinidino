@@ -17,10 +17,10 @@ class Board:
     def place_tile(self, row, column, tile):
         if not (0 <= row < self.rows and 0 <= column < self.columns):
             raise PlacementOutOfBounds("Placement is outside the valid boundaries.")
-        self.grid[row][column].set_letter(tile)
+        self.grid[row][column].set_tile(tile)
 
     def get_square(self, row, column):
         return self.grid[row][column]
 
     def get_tile(self, row, column):
-        return self.grid[row][column].get_letter()
+        return self.grid[row][column].get_tile()

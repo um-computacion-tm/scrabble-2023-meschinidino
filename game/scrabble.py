@@ -62,7 +62,7 @@ class ScrabbleGame:
         if starting_column + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
-            if self.board.get_square(starting_row, i + starting_column).has_letter():
+            if self.board.get_square(starting_row, i + starting_column).has_tile():
                 continue
             self.board.place_tile(starting_row, i + starting_column, word[i])
 
@@ -70,6 +70,6 @@ class ScrabbleGame:
         if starting_row + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
-            if self.board.get_square(starting_row + i, starting_column).has_letter():
+            if self.board.get_square(starting_row + i, starting_column).has_tile():
                 continue
             self.board.place_tile(i + starting_row, starting_column, word[i])

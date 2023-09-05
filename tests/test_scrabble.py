@@ -116,7 +116,7 @@ class TestScrabble(unittest.TestCase):
                  Tile('B', 1),
                  Tile('O', 1),
                  Tile('L', 1)]
-        game.board.grid[7][8].put_letter(Tile('R', 1))
+        game.board.grid[7][8].put_tile(Tile('R', 1))
         game.place_word(tiles, 7, 7, 'horizontal')
         self.assertEqual(game.board.grid[7][7].letter, Tile('A', 1))
         self.assertEqual(game.board.grid[7][8].letter, Tile('R', 1))
@@ -131,7 +131,7 @@ class TestScrabble(unittest.TestCase):
                  Tile('B', 1),
                  Tile('O', 1),
                  Tile('L', 1)]
-        game.board.grid[8][7].put_letter(Tile('R', 1))
+        game.board.grid[8][7].put_tile(Tile('R', 1))
         game.place_word(tiles, 7, 7, 'vertical')
         self.assertEqual(game.board.grid[7][7].letter, Tile('A', 1))
         self.assertEqual(game.board.grid[8][7].letter, Tile('R', 1))
