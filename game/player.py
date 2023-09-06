@@ -28,7 +28,7 @@ class Player:
 
     def find_letter_in_tiles(self, letter):
         for tile in self.tiles:
-            if tile.get_letter() == letter:
+            if tile.get_letter() == letter.upper():
                 return tile
         return None
 

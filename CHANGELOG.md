@@ -1,3 +1,14 @@
+# 0.0.8 - 2023 - 09 - 06
+### [ADDED]
+- A class that works as interface between the player and the game logic
+
+### [FIXED]
+- Several functions that weren't working as expected (see commits)
+
+### [WIP]
+- Player turn takes input from player and places a word where the player
+wants, doesn't add score YET.
+
 # 0.0.7 - 2023 - 09 - 04
 ### [FIXED]
 - Methods for the square class, renamed them for better clarity
