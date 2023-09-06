@@ -19,6 +19,7 @@ class ScrabbleGame:
         self.players = []
         self.current_player_index = 0
         self.dictionary = Dictionary('dictionaries/dictionary.txt')
+        self.last_word = []
         for i in range(amount):
             self.players.append(Player())
 
@@ -41,10 +42,6 @@ class ScrabbleGame:
         else:
             self.current_player_index += 1
 
-    def player_turn(self, action):
-        if action == 'pass':
-            self.change_player_index()
-
     def place_word(self, word, starting_row, starting_column, direction):
         if direction.lower() == 'horizontal':
             self.place_horizontal(word, starting_row, starting_column)
@@ -55,7 +52,7 @@ class ScrabbleGame:
         if starting_column + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
-            if self.board.get_square(starting_row, i + starting_column).has_letter():
+            if self.board.get_square(starting_row, i + starting_column).has_tile():
                 continue
             self.board.place_tile(starting_row, i + starting_column, word[i])
 
@@ -63,6 +60,7 @@ class ScrabbleGame:
         if starting_row + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
-            if self.board.get_square(starting_row + i, starting_column).has_letter():
+            if self.board.get_square(starting_row + i, starting_column).has_tile():
                 continue
             self.board.place_tile(i + starting_row, starting_column, word[i])
+            self.last_word.append(self.board.grid[starting_row + i][starting_column])

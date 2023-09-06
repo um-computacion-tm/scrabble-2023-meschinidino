@@ -9,7 +9,7 @@ class Square:
         self.multiplier_type = None
         self.multiplier_up = True
 
-    def has_letter(self):
+    def has_tile(self):
         return self.letter is not None
 
     def has_multiplier(self):
@@ -22,19 +22,19 @@ class Square:
         return self.letter_multiplier
 
     def multiplier_is_up(self):
-        if self.has_letter():
+        if self.has_tile():
             self.multiplier_up = False
 
-    def get_letter(self):
+    def get_tile(self):
         return self.letter
 
-    def put_letter(self, letter):
-        if not self.has_letter():
+    def put_tile(self, letter):
+        if not self.has_tile():
             self.letter = letter
         self.multiplier_is_up()
 
     def individual_score(self):
-        if self.has_letter():
+        if self.has_tile():
             return self.letter.get_value() * self.letter_multiplier
         return 0
 
@@ -44,8 +44,11 @@ class Square:
     def set_multiplier(self, amount):
         self.letter_multiplier = amount
 
-    def set_letter(self, tile):
+    def set_tile(self, tile):
         self.letter = tile
 
     def set_word_multiplier(self, amount):
         self.word_multiplier = amount
+
+    def __repr__(self):
+        return f"{self.get_tile().get_letter()}, {self.get_tile().get_value()}, x{self.letter_multiplier} {self.multiplier_type}"

@@ -1,6 +1,7 @@
 import unittest
-from game.player import Player
+from game.player import Player, LetterNotFound
 from game.tilebag import Tilebag
+from game.tile import Tile
 
 
 class TestPlayer(unittest.TestCase):
@@ -33,6 +34,27 @@ class TestPlayer(unittest.TestCase):
         tile = player.tiles[0]
         player.exchange_tile(player.tiles[0], bag)
         self.assertFalse(tile == player.tiles[0])
+
+    def test_find_letter_in_tiles(self):
+        player = Player()
+        player.tiles = [Tile('A', 1), Tile('B', 3), Tile('C', 1)]
+        result = player.find_letter_in_tiles('B')
+        self.assertIsInstance(result, Tile)
+        self.assertEqual(result.get_letter(), 'B')
+        result = player.find_letter_in_tiles('X')
+        self.assertFalse(result)
+
+    def test_give_requested_tiles(self):
+        player = Player()
+        player.tiles = [Tile('A', 1), Tile('B', 3), Tile('C', 1)]
+        word = 'ABC'
+        result = player.give_requested_tiles(word)
+        self.assertEqual(len(result), len(word))
+
+    def test_give_tiles_empty(self):
+        player = Player()
+        with self.assertRaises(LetterNotFound):
+            result = player.give_requested_tiles("a")
 
 
 if __name__ == '__main__':

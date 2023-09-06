@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from game.scrabble import ScrabbleGame, WordOutOfBounds
 from game.board import Board
 from game.tile import Tile
@@ -97,17 +98,6 @@ class TestScrabble(unittest.TestCase):
         with self.assertRaises(WordOutOfBounds):
             game.place_word(tiles, 12, 7, 'vertical')
 
-    def test_player_turn(self):
-        game = ScrabbleGame(2)
-        game.player_turn('pass')
-        self.assertEqual(game.current_player_index, 1)
-
-    def test_last_player_turn(self):
-        game = ScrabbleGame(2)
-        game.current_player_index = 1
-        game.player_turn('pass')
-        self.assertEqual(game.current_player_index, 0)
-
     def test_square_occupied(self):
         game = ScrabbleGame(1)
         tiles = [Tile('A', 1),
@@ -115,7 +105,7 @@ class TestScrabble(unittest.TestCase):
                  Tile('B', 1),
                  Tile('O', 1),
                  Tile('L', 1)]
-        game.board.grid[7][8].put_letter(Tile('R', 1))
+        game.board.grid[7][8].put_tile(Tile('R', 1))
         game.place_word(tiles, 7, 7, 'horizontal')
         self.assertEqual(game.board.grid[7][7].letter, Tile('A', 1))
         self.assertEqual(game.board.grid[7][8].letter, Tile('R', 1))
@@ -130,13 +120,15 @@ class TestScrabble(unittest.TestCase):
                  Tile('B', 1),
                  Tile('O', 1),
                  Tile('L', 1)]
-        game.board.grid[8][7].put_letter(Tile('R', 1))
+        game.board.grid[8][7].put_tile(Tile('R', 1))
         game.place_word(tiles, 7, 7, 'vertical')
         self.assertEqual(game.board.grid[7][7].letter, Tile('A', 1))
         self.assertEqual(game.board.grid[8][7].letter, Tile('R', 1))
         self.assertEqual(game.board.grid[9][7].letter, Tile('B', 1))
         self.assertEqual(game.board.grid[10][7].letter, Tile('O', 1))
         self.assertEqual(game.board.grid[11][7].letter, Tile('L', 1))
+
+
 
 if __name__ == '__main__':
     unittest.main()

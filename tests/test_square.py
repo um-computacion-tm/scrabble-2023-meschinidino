@@ -13,7 +13,7 @@ class TestSquare(unittest.TestCase):
     def test_square_letter(self):
         tile = Tile('A', 1)
         square = Square()
-        square.put_letter(tile)
+        square.put_tile(tile)
         self.assertEqual(square.letter, tile)
 
     def test_square_multiplier(self):
@@ -32,22 +32,22 @@ class TestSquare(unittest.TestCase):
 
     def test_no_letter(self):
         square = Square()
-        self.assertFalse(square.has_letter())
+        self.assertFalse(square.has_tile())
 
     def test_has_letter(self):
         square = Square()
-        square.put_letter(Tile('A', 1))
-        self.assertTrue(square.has_letter())
+        square.put_tile(Tile('A', 1))
+        self.assertTrue(square.has_tile())
 
     def test_insert_letter_full(self):
         square = Square()
-        square.set_letter(Tile('A', 1))
-        square.put_letter(Tile('B', 1))
-        self.assertEqual(square.get_letter(), Tile('A',1 ))
+        square.set_tile(Tile('A', 1))
+        square.put_tile(Tile('B', 1))
+        self.assertEqual(square.get_tile(), Tile('A', 1))
 
     def test_insert_letter_empty(self):
         square = Square()
-        square.put_letter((Tile('A', 1)))
+        square.put_tile((Tile('A', 1)))
         self.assertEqual(square.letter.letter, 'A')
 
     def test_multiplier_type(self):
@@ -63,6 +63,14 @@ class TestSquare(unittest.TestCase):
     def test_score_tile_empty(self):
         square = Square()
         self.assertEqual(square.individual_score(), 0)
+
+    def test_give_info(self):
+        square = Square()
+        square.put_tile(Tile('A', 1))
+        square.set_multiplier_type('Letter')
+        square.set_multiplier(2)
+        self.assertEqual((repr(square)), 'A, 1, x2 Letter')
+
 
 
 if __name__ == '__main__':

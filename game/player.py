@@ -1,10 +1,15 @@
 from game.tilebag import Tilebag
 
 
+class LetterNotFound(Exception):
+    pass
+
+
 class Player:
     def __init__(self):
         self.score = 0
         self.tiles = []
+        self.name = ""
 
     def increase_score(self, amount):
         self.score += amount
@@ -20,3 +25,20 @@ class Player:
                 break
 
         self.tiles.extend(bag.take(1))
+
+    def find_letter_in_tiles(self, letter):
+        for tile in self.tiles:
+            if tile.get_letter() == letter.upper():
+                return tile
+        return None
+
+    def give_requested_tiles(self, word):
+        letters = []
+        for letter in word:
+            tile = self.find_letter_in_tiles(letter)
+            if tile is not None:
+                letters.append(tile)
+            else:
+                raise LetterNotFound(f"Letter '{letter}' not found in player's tiles")
+        return letters
+
