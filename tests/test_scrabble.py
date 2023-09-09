@@ -128,6 +128,11 @@ class TestScrabble(unittest.TestCase):
         self.assertEqual(game.board.grid[10][7].letter, Tile('O', 1))
         self.assertEqual(game.board.grid[11][7].letter, Tile('L', 1))
 
+    def test_get_scores(self):
+        game = ScrabbleGame(1)
+        game.players[0].set_name("Dino")
+        self.assertEqual(game.get_scores(), {'Dino': 0})
+
 
 
 if __name__ == '__main__':

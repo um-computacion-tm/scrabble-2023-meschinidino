@@ -71,6 +71,9 @@ class TestSquare(unittest.TestCase):
         square.set_multiplier(2)
         self.assertEqual((repr(square)), 'A, 1, x2 Letter')
 
+    def test_give_info_empty(self):
+        square = Square()
+        self.assertEqual((repr(square)), "||  |x1||")
 
 
 if __name__ == '__main__':

@@ -42,3 +42,21 @@ class Player:
                 raise LetterNotFound(f"Letter '{letter}' not found in player's tiles")
         return letters
 
+    def forfeit_tiles(self, word):
+        for tile in word:
+            self.forfeit_tile(tile)
+
+    def forfeit_tile(self, tile):
+        for i in range(len(self.tiles)):
+            if self.tiles[i].get_letter() == tile.get_letter():
+                self.tiles.pop(i)
+                break
+
+    def set_name(self, name):
+        self.name = name
+
+    def get_score(self):
+        return self.score
+
+    def get_name(self):
+        return self.name

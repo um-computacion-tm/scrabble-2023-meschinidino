@@ -43,6 +43,7 @@ class ScrabbleGame:
             self.current_player_index += 1
 
     def place_word(self, word, starting_row, starting_column, direction):
+        self.last_word = []
         if direction.lower() == 'horizontal':
             self.place_horizontal(word, starting_row, starting_column)
         if direction.lower() == 'vertical':
@@ -55,6 +56,7 @@ class ScrabbleGame:
             if self.board.get_square(starting_row, i + starting_column).has_tile():
                 continue
             self.board.place_tile(starting_row, i + starting_column, word[i])
+            self.last_word.append(self.board.grid[starting_row][starting_column + i])
 
     def place_vertical(self, word, starting_row, starting_column):
         if starting_row + len(word) > 15:
@@ -64,3 +66,9 @@ class ScrabbleGame:
                 continue
             self.board.place_tile(i + starting_row, starting_column, word[i])
             self.last_word.append(self.board.grid[starting_row + i][starting_column])
+
+    def get_scores(self):
+        scores = {}
+        for player in self.players:
+            scores[player.get_name()] = player.get_score()
+        return scores
