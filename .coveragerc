@@ -1,0 +1,18 @@
+[run]
+source =
+    game
+    tests
+omit =
+    env/*
+    */test*
+    */__init__.py
+[report]
+exclude_lines =
+    pragma: no cover
+    def setUp
+    def test_
+    return raw_input
+    print
+    if __name__ == '__main__':
+    def suite
+    __str__
