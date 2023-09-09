@@ -1,3 +1,11 @@
+# 0.0.9 - 2023 - 09 - 06
+### [ADDED]
+- Player turn method, play, pass or draw tiles
+
+### [FIXED]
+- Squares now show their contents even when empty
+- Player turn updates score
+- Player tiles are now updated when they place tiles
 # 0.0.8 - 2023 - 09 - 06
 ### [ADDED]
 - A class that works as interface between the player and the game logic

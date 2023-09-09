@@ -1,5 +1,5 @@
 class Tile:
-    def __init__(self, letter, value):
+    def __init__(self, letter=None, value=None):
         self.letter = letter
         self.value = value
 

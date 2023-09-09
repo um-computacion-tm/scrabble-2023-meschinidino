@@ -24,3 +24,9 @@ class Board:
 
     def get_tile(self, row, column):
         return self.grid[row][column].get_tile()
+
+    #TODO Finish method that prints rows
+    # def print_row(self, row_number):
+    #     squares = []
+    #     for i in range(self.rows):
+    #         squares.append(repr(self.grid[i][row_number]))

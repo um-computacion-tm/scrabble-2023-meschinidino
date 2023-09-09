@@ -42,3 +42,12 @@ class Player:
                 raise LetterNotFound(f"Letter '{letter}' not found in player's tiles")
         return letters
 
+    def forfeit_tiles(self, word):
+        for tile in word:
+            self.forfeit_tile(tile)
+
+    def forfeit_tile(self, tile):
+        for i in range(len(self.tiles)):
+            if self.tiles[i].get_letter() == tile.get_letter():
+                self.tiles.pop(i)
+                break

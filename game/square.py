@@ -51,4 +51,8 @@ class Square:
         self.word_multiplier = amount
 
     def __repr__(self):
-        return f"{self.get_tile().get_letter()}, {self.get_tile().get_value()}, x{self.letter_multiplier} {self.multiplier_type}"
+        if self.letter is None:
+            return "|  | 0 | x1|"
+
+        return (f"{self.get_tile().get_letter()}, {self.get_tile().get_value()}, "
+                f"x{self.letter_multiplier} {self.multiplier_type}")

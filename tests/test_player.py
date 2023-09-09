@@ -56,6 +56,18 @@ class TestPlayer(unittest.TestCase):
         with self.assertRaises(LetterNotFound):
             result = player.give_requested_tiles("a")
 
+    def test_forfeit_tile(self):
+        player = Player()
+        player.tiles = [Tile('A', 1), Tile('B', 3), Tile('C', 1)]
+        player.forfeit_tile(Tile('A', 1))
+        self.assertEqual([Tile('B', 3), Tile('C', 1)], player.tiles)
+
+    def test_forfeit_tiles(self):
+        player = Player()
+        player.tiles = [Tile('A', 1), Tile('B', 3), Tile('C', 1)]
+        player.forfeit_tiles([Tile('B', 3), Tile('C', 1)])
+        self.assertEqual(player.tiles, [Tile('A', 1)])
+
 
 if __name__ == '__main__':
     unittest.main()
