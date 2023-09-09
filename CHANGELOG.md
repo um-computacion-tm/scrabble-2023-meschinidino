@@ -1,4 +1,18 @@
-# 0.0.9 - 2023 - 09 - 06
+# 0.0.10 - 2023 - 09 - 09
+### [ADDED]
+- More functions to player turn method
+- Game state attribute to ScrabbleGame(Game ongoing, game over)
+- Method that ends and starts the game.
+- Name attribute to the player class
+
+###[FIXED]
+- Minor fixes to structure
+
+### [WIP]
+- Method to display the board
+- Better word scores
+
+# 0.0.9 - 2023 - 09 - 08
 ### [ADDED]
 - Player turn method, play, pass or draw tiles
 
@@ -6,7 +20,7 @@
 - Squares now show their contents even when empty
 - Player turn updates score
 - Player tiles are now updated when they place tiles
-# 0.0.8 - 2023 - 09 - 06
+# 0.0.8 - 2023 - 09 - 0
 ### [ADDED]
 - A class that works as interface between the player and the game logic
 

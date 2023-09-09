@@ -66,3 +66,9 @@ class ScrabbleGame:
                 continue
             self.board.place_tile(i + starting_row, starting_column, word[i])
             self.last_word.append(self.board.grid[starting_row + i][starting_column])
+
+    def get_scores(self):
+        scores = {}
+        for player in self.players:
+            scores[player.get_name()] = player.get_score()
+        return scores

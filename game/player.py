@@ -51,3 +51,12 @@ class Player:
             if self.tiles[i].get_letter() == tile.get_letter():
                 self.tiles.pop(i)
                 break
+
+    def set_name(self, name):
+        self.name = name
+
+    def get_score(self):
+        return self.score
+
+    def get_name(self):
+        return self.name

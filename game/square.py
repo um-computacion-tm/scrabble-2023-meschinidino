@@ -52,7 +52,7 @@ class Square:
 
     def __repr__(self):
         if self.letter is None:
-            return "|  | 0 | x1|"
+            return "||  |x1||"
 
         return (f"{self.get_tile().get_letter()}, {self.get_tile().get_value()}, "
                 f"x{self.letter_multiplier} {self.multiplier_type}")

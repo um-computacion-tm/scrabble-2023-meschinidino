@@ -26,6 +26,9 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board.get_tile(7, 7), Tile('A', 1))
         self.assertEqual(board.grid[7][7].get_multiplier(), 2)
 
+    # def test_print_row(self):
+    #     board = Board()
+    #     board.print_board()
 
 if __name__ == '__main__':
     unittest.main()

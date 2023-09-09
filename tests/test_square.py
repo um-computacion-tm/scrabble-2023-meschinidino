@@ -73,7 +73,7 @@ class TestSquare(unittest.TestCase):
 
     def test_give_info_empty(self):
         square = Square()
-        self.assertEqual((repr(square)), "|  | 0 | x1|")
+        self.assertEqual((repr(square)), "||  |x1||")
 
 
 if __name__ == '__main__':
