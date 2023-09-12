@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from game.scrabble import ScrabbleGame, WordOutOfBounds
+from game.scrabble import ScrabbleGame, WordOutOfBounds, WordNotValid
 from game.board import Board
 from game.tile import Tile
 from game.tilebag import Tilebag
@@ -133,6 +133,23 @@ class TestScrabble(unittest.TestCase):
         game.players[0].set_name("Dino")
         self.assertEqual(game.get_scores(), {'Dino': 0})
 
+    def test_word_validity(self):
+        game = ScrabbleGame(1)
+        self.assertTrue(game.check_word_validity([Tile('A', 1),
+                                                  Tile('R', 1),
+                                                  Tile('B', 1),
+                                                  Tile('O', 1),
+                                                  Tile('L', 1)]))
+
+    def test_not_valid(self):
+        game = ScrabbleGame(1)
+        tiles = [Tile('L', 1),
+                 Tile('M', 1),
+                 Tile('F', 1),
+                 Tile('A', 1),
+                 Tile('O', 1)]
+        with self.assertRaises(WordNotValid):
+            game.place_word(tiles, 7, 12, 'horizontal')
 
 
 if __name__ == '__main__':

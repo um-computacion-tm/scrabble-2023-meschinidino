@@ -8,6 +8,10 @@ class InvalidAction(Exception):
     pass
 
 
+class WordNotValid(Exception):
+    pass
+
+
 class WordOutOfBounds(Exception):
     pass
 
@@ -44,6 +48,8 @@ class ScrabbleGame:
 
     def place_word(self, word, starting_row, starting_column, direction):
         self.last_word = []
+        if not self.check_word_validity(word):
+            raise WordNotValid
         if direction.lower() == 'horizontal':
             self.place_horizontal(word, starting_row, starting_column)
         if direction.lower() == 'vertical':
@@ -72,3 +78,9 @@ class ScrabbleGame:
         for player in self.players:
             scores[player.get_name()] = player.get_score()
         return scores
+
+    def check_word_validity(self, word):
+        check = ""
+        for letter in word:
+            check += letter.get_letter()
+        return self.dictionary.has_word(check.lower())

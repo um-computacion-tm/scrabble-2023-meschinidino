@@ -78,7 +78,9 @@ class TestPlayer(unittest.TestCase):
         player.increase_score(2)
         self.assertEqual(player.get_score(), 2)
 
-
+    def test_show_tiles(self):
+        player = Player()
+        self.assertEqual(player.show_tiles(), player.tiles)
 
 
 if __name__ == '__main__':
