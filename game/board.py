@@ -25,15 +25,24 @@ class Board:
     def get_tile(self, row, column):
         return self.grid[row][column].get_tile()
 
-    #TODO implement print board method
-    # def print_row(self, row_number):
-    #     squares = []
-    #     for i in range(self.rows):
-    #         squares.append(repr(self.grid[i][row_number]))
-    #     return squares
-    #
+    def print_row(self, row_number):
+        squares = []
+        for i in range(self.rows):
+            squares.append(repr(self.grid[i][row_number]))
+        return squares
+
     # def print_board(self):
     #     columns = []
     #     for i in range(self.columns):
     #         columns.append(self.print_row(i))
-    #     print(columns)
+    # for i in range(len(columns)):
+        #     if len(str(i))==1:
+            #     print("0" + str(i), columns[i])
+            #     print("--------------------------------------------------------------------------------"
+            #           "--------------------------------------------------------------------------------"
+            #           "-------------------------------------")
+            # else:
+            #     print(i+1, columns[i])
+            #     print("--------------------------------------------------------------------------------"
+            #           "--------------------------------------------------------------------------------"
+            #           "-------------------------------------")

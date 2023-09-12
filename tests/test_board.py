@@ -30,5 +30,6 @@ class TestBoard(unittest.TestCase):
     #     board = Board()
     #     board.print_board()
 
+
 if __name__ == '__main__':
     unittest.main()
