@@ -8,4 +8,4 @@ RUN git clone https://github.com/um-computacion-tm/scrabble-2023-meschinidino.gi
 WORKDIR /scrabble-2023-meschinidino
 RUN pip install -r requirements.txt
 
-CMD [ "sh", "-c", "git checkout develop", "coverage run -m unittest && coverage report -m && python -m game.main" ]
+CMD [ "sh", "-c", "coverage run -m unittest && coverage report -m && python -m game.main" ]

@@ -9,7 +9,7 @@ class ScrabbleCli:
         self.game_state = None
 
     def player_turn(self):
-        action = input("What would you like to do? (play, pass, draw, scores, quit) ").lower()
+        action = input("What would you like to do? (play, pass, draw, scores, quit, tiles) ").lower()
         if action == 'pass':
             self.pass_turn()
         if action == 'play':
@@ -20,7 +20,9 @@ class ScrabbleCli:
             self.game_state = 'over'
         if action == 'scores':
             self.show_scores()
-        elif action != 'pass' and action != 'play' and action != 'draw' and action != 'quit':
+        if action == 'tiles':
+            self.show_tiles()
+        elif self.action_valid(action):
             print("Action not valid, please choose play, pass or draw.")
 
     def play_turn(self):
@@ -44,6 +46,8 @@ class ScrabbleCli:
 
     def start_game(self):
         self.game_state_start()
+        self.get_player_names()
+        self.start_player_tiles()
         while True:
             self.check_tiles()
             if self.game_state == 'over':
@@ -64,3 +68,19 @@ class ScrabbleCli:
 
     def end_game(self):
         self.game_state = 'over'
+
+    def action_valid(self, action):
+        return (action != 'pass' and action != 'play' and action != 'draw'
+                and action != 'quit' and action != 'scores' and action != 'tiles')
+
+    def start_player_tiles(self):
+        for player in self.game.players:
+            player.draw_tiles(self.game.tilebag, 7)
+
+    def get_player_names(self):
+        for i in range(len(self.game.players)):
+            self.game.players[i].set_name(input(f"Player {i + 1} state your name: "))
+
+    def show_tiles(self):
+        tiles = self.game.players[self.game.current_player_index].show_tiles()
+        print(tiles)

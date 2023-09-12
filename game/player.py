@@ -60,3 +60,6 @@ class Player:
 
     def get_name(self):
         return self.name
+
+    def show_tiles(self):
+        return self.tiles
