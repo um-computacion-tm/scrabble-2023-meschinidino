@@ -30,6 +30,7 @@ class TestBoard(unittest.TestCase):
         board = Board()
         self.assertTrue(board.is_board_empty())
 
+
     # def test_print_row(self):
     #     board = Board()
     #     board.print_board()

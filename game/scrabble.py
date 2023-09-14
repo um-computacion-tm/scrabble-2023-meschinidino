@@ -85,8 +85,8 @@ class ScrabbleGame:
             check += letter.get_letter()
         return self.dictionary.has_word(check.lower())
 
-    # def check_first_turn(self):
-    #     return self.board.is_board_empty()
+    def check_first_turn(self):
+        return self.board.is_board_empty()
 
 
 

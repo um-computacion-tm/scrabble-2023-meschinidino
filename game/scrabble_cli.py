@@ -49,9 +49,9 @@ class ScrabbleCli:
         self.get_player_names()
         self.start_player_tiles()
         while True:
-            # if self.game.check_first_turn():
-            #     self.first_turn()
-            #     continue
+            if self.game.check_first_turn():
+                self.first_turn()
+                continue
             self.check_tiles()
             if self.game_state == 'over':
                 break
@@ -84,20 +84,21 @@ class ScrabbleCli:
         tiles = self.game.players[self.game.current_player_index].show_tiles()
         print(tiles)
 
-    # def first_turn(self):
-    #     print("Since there is no word in the center, please place your word there to start the game")
-    #     word = input("Give a word to enter: ").lower()
-    #     row = int(input("State starting row: "))
-    #     column = int(input("State starting column: "))
-    #     direction = input("State direction (horizontal or vertical: )")
-    #     if self.valid_first_word(word, row, column, direction):
-    #         self.game.place_word(word, row, column, direction)
-    #         self.game.players[self.game.current_player_index].forfeit_tiles(word)
-    #         self.game.players[self.game.current_player_index].increase_score(self.game.word_score(self.game.last_word))
-    #         self.game.change_player_index()
-    #
-    # @staticmethod
-    # def valid_first_word(word, starting_row, starting_column, direction):
-    #     mock_game = ScrabbleGame(1)
-    #     mock_game.place_word(word, starting_row, starting_column, direction)
-    #     return mock_game.board.is_board_empty()
+    def first_turn(self):
+        print("Since there is no word in the center, please place your word there to start the game")
+        word = input("Give a word to enter: ").lower()
+        row = int(input("State starting row: "))
+        column = int(input("State starting column: "))
+        direction = input("State direction (horizontal or vertical: )")
+        word = self.game.players[self.game.current_player_index].give_requested_tiles(word)
+        if not self.valid_first_word(word, row, column, direction):
+            self.game.place_word(word, row, column, direction)
+            self.game.players[self.game.current_player_index].forfeit_tiles(word)
+            self.game.players[self.game.current_player_index].increase_score(self.game.word_score(self.game.last_word))
+            self.game.change_player_index()
+
+    @staticmethod
+    def valid_first_word(word, starting_row, starting_column, direction):
+        mock_game = ScrabbleGame(1)
+        mock_game.place_word(word, starting_row, starting_column, direction)
+        return mock_game.board.is_board_empty()
