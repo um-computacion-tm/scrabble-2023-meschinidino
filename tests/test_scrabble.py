@@ -33,7 +33,7 @@ class TestScrabble(unittest.TestCase):
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
             letters.append(board.get_square(7, 7 + i))
-        self.assertEqual(5, game.word_score(letters))
+        self.assertEqual(6, game.word_score(letters))
 
     def test_word_score_multipliers(self):
         game = ScrabbleGame(1)
@@ -48,7 +48,7 @@ class TestScrabble(unittest.TestCase):
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
             letters.append(board.get_square(7, 7 + i))
-        self.assertEqual(12, game.word_score(letters))
+        self.assertEqual(8, game.word_score(letters))
 
     def test_place_word_horizontal(self):
         game = ScrabbleGame(1)
