@@ -88,6 +88,15 @@ class ScrabbleGame:
     def check_first_turn(self):
         return self.board.is_board_empty()
 
+    def check_left_square(self, row, col):
+        return self.board.grid[row - 1][col].has_tile()
 
+    def check_right_square(self, row, col):
+        return self.board.grid[row + 1][col].has_tile()
 
+    def check_up_square(self, row, col):
+        return self.board.grid[row][col - 1].has_tile()
+
+    def check_down_square(self, row, col):
+        return self.board.grid[row][col + 1].has_tile()
 
