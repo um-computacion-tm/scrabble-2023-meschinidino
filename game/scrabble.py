@@ -27,13 +27,13 @@ class ScrabbleGame:
         for i in range(amount):
             self.players.append(Player())
 
-    def word_score(self, word: list):
+    @staticmethod
+    def word_score(word: list):
         score = 0
         word_multipliers = 0
         for square in word:
-            if square.word_multiplier is not None:
-                word_multipliers += square.word_multiplier
-                square.multiplier_is_up()
+            if square.multiplier_type == 'word':
+                word_multipliers += square.multiplier
             score += square.individual_score()
             square.multiplier_is_up()
         if word_multipliers != 0:
@@ -84,3 +84,19 @@ class ScrabbleGame:
         for letter in word:
             check += letter.get_letter()
         return self.dictionary.has_word(check.lower())
+
+    def check_first_turn(self):
+        return self.board.is_board_empty()
+
+    def check_left_square(self, row, col):
+        return self.board.grid[row - 1][col].has_tile()
+
+    def check_right_square(self, row, col):
+        return self.board.grid[row + 1][col].has_tile()
+
+    def check_up_square(self, row, col):
+        return self.board.grid[row][col - 1].has_tile()
+
+    def check_down_square(self, row, col):
+        return self.board.grid[row][col + 1].has_tile()
+

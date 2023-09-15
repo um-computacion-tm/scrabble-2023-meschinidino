@@ -13,15 +13,6 @@ class TestScrabble(unittest.TestCase):
         self.assertIsNotNone(game.tilebag)
         self.assertEqual(len(game.players), 1)
 
-    def test_word_validation(self):
-        game = ScrabbleGame(1)
-        word = [Tile('A', 1),
-                Tile('R', 1),
-                Tile('B', 1),
-                Tile('O', 1),
-                Tile('L', 1)]
-        # game.insert_word(word, row=7, column=7, 'horizontal')
-
     def test_word_score(self):
         game = ScrabbleGame(1)
         board = Board()
@@ -33,7 +24,7 @@ class TestScrabble(unittest.TestCase):
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
             letters.append(board.get_square(7, 7 + i))
-        self.assertEqual(5, game.word_score(letters))
+        self.assertEqual(6, game.word_score(letters))
 
     def test_word_score_multipliers(self):
         game = ScrabbleGame(1)
@@ -48,7 +39,7 @@ class TestScrabble(unittest.TestCase):
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
             letters.append(board.get_square(7, 7 + i))
-        self.assertEqual(12, game.word_score(letters))
+        self.assertEqual(8, game.word_score(letters))
 
     def test_place_word_horizontal(self):
         game = ScrabbleGame(1)
@@ -150,6 +141,14 @@ class TestScrabble(unittest.TestCase):
                  Tile('O', 1)]
         with self.assertRaises(WordNotValid):
             game.place_word(tiles, 7, 12, 'horizontal')
+
+    def test_check_left(self):
+        game = ScrabbleGame(1)
+        game.board.grid[7][7].put_tile(Tile('A', 1))
+        self.assertTrue(game.check_left_square(8, 7))
+        self.assertTrue(game.check_down_square(7, 6))
+        self.assertTrue(game.check_right_square(6, 7))
+        self.assertTrue(game.check_up_square(7, 8))
 
 
 if __name__ == '__main__':

@@ -1,3 +1,13 @@
+# 0.1.1 - 2023 - 09 - 14
+
+### [ADDED]
+
+- Conditions for where the first word must be placed
+
+### [WIP]
+- Print board method
+- More word score features
+
 # 0.1.0 - 2023 - 09 - 11
 
 ### [ADDED]
