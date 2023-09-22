@@ -100,3 +100,9 @@ class ScrabbleGame:
     def check_down_square(self, row, col):
         return self.board.grid[row][col + 1].has_tile()
 
+    def check_word_left(self, row, col):
+        word = []
+        while col >= 0 and self.board.grid[row][col].has_tile():
+            word.insert(0, self.board.grid[row][col].get_tile())
+            col -= 1
+        return len(word) > 0
