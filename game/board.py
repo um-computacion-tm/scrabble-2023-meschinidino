@@ -61,6 +61,7 @@ class Board:
     def is_board_empty(self):
         return not self.grid[7][7].has_tile()
 
+
     # def print_board(self):
     #     columns = []
     #     for i in range(self.columns):

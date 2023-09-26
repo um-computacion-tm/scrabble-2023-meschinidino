@@ -164,6 +164,20 @@ class TestScrabble(unittest.TestCase):
         game.place_word(tiles, 7, 7, "vertical")
         self.assertTrue(game.check_word_left(7,7))
 
+    def test_right_word(self):
+        game = ScrabbleGame(1)
+        tiles = [Tile('A', 1),
+                 Tile('R', 1),
+                 Tile('B', 1),
+                 Tile('O', 1),
+                 Tile('L', 1)]
+        game.board.grid[7][7].put_tile(Tile("C", 1))
+        game.board.grid[8][7].put_tile(Tile("A", 1))
+        game.board.grid[9][7].put_tile(Tile("S", 1))
+        game.board.grid[10][7].put_tile(Tile("A", 1))
+        game.place_word(tiles, 7,7, "vertical")
+        self.assertTrue(game.check_word_right(7,7))
+
 
 if __name__ == '__main__':
     unittest.main()

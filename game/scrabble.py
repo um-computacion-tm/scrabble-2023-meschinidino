@@ -106,3 +106,10 @@ class ScrabbleGame:
             word.insert(0, self.board.grid[row][col].get_tile())
             col -= 1
         return len(word) > 0
+
+    def check_word_right(self, row, col):
+        word = []
+        while col >= 0 and self.board.grid[row][col].has_tile():
+            word.insert(0, self.board.grid[row][col].get_tile())
+            col += 1
+        return len(word) > 0
