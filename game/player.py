@@ -39,7 +39,8 @@ class Player:
             if tile is not None:
                 letters.append(tile)
             else:
-                raise LetterNotFound(f"Letter '{letter}' not found in player's tiles")
+                print(f"Letter '{letter}' not found in player's tiles")
+                return None
         return letters
 
     def forfeit_tiles(self, word):

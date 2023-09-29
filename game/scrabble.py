@@ -48,6 +48,8 @@ class ScrabbleGame:
 
     def place_word(self, word, starting_row, starting_column, direction):
         self.last_word = []
+        if word is None:
+            print(InvalidAction)
         if not self.check_word_validity(word):
             raise WordNotValid
         if direction.lower() == 'horizontal':
@@ -100,3 +102,30 @@ class ScrabbleGame:
     def check_down_square(self, row, col):
         return self.board.grid[row][col + 1].has_tile()
 
+    def check_word_left(self, row, col):
+        word = []
+        while col >= 0 and self.board.grid[row][col].has_tile():
+            word.insert(0, self.board.grid[row][col].get_tile())
+            col -= 1
+        return len(word) > 0
+
+    def check_word_right(self, row, col):
+        word = []
+        while col >= 0 and self.board.grid[row][col].has_tile():
+            word.insert(0, self.board.grid[row][col].get_tile())
+            col += 1
+        return len(word) > 0
+
+    def check_word_up(self, row, col):
+        word = []
+        while row >= 0 and self.board.grid[row][col].has_tile():
+            word.insert(0, self.board.grid[row][col].get_tile())
+            row -= 1
+        return len(word) > 0
+
+    def check_word_down(self, row, col):
+        word = []
+        while row >= 0 and self.board.grid[row][col].has_tile():
+            word.insert(0, self.board.grid[row][col].get_tile())
+            row += 1
+        return len(word) > 0
