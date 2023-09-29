@@ -1,4 +1,7 @@
 import unittest
+from io import StringIO
+from unittest.mock import patch
+
 from game.player import Player, LetterNotFound
 from game.tilebag import Tilebag
 from game.tile import Tile
@@ -51,10 +54,11 @@ class TestPlayer(unittest.TestCase):
         result = player.give_requested_tiles(word)
         self.assertEqual(len(result), len(word))
 
-    def test_give_tiles_empty(self):
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_give_tiles_empty(self, mock_stdout):
         player = Player()
-        with self.assertRaises(LetterNotFound):
-            result = player.give_requested_tiles("a")
+        player.give_requested_tiles("word")
+        self.assertEqual(mock_stdout.getvalue().strip(), "Letter 'w' not found in player's tiles")
 
     def test_forfeit_tile(self):
         player = Player()
