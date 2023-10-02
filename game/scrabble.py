@@ -104,28 +104,32 @@ class ScrabbleGame:
 
     def check_word_left(self, row, col):
         word = []
-        while col >= 0 and self.board.grid[row][col].has_tile():
+        while row >= 0 and self.check_left_square(row, col):
             word.insert(0, self.board.grid[row][col].get_tile())
-            col -= 1
+            row -= 1
+        print(word)
         return len(word) > 0
 
     def check_word_right(self, row, col):
         word = []
-        while col >= 0 and self.board.grid[row][col].has_tile():
+        while row >= 0 and self.check_right_square(row, col):
             word.insert(0, self.board.grid[row][col].get_tile())
-            col += 1
+            row += 1
+        print(word)
         return len(word) > 0
 
     def check_word_up(self, row, col):
         word = []
-        while row >= 0 and self.board.grid[row][col].has_tile():
+        while col >= 0 and self.check_up_square(row, col):
             word.insert(0, self.board.grid[row][col].get_tile())
-            row -= 1
+            col -= 1
+        print(word)
         return len(word) > 0
 
     def check_word_down(self, row, col):
         word = []
-        while row >= 0 and self.board.grid[row][col].has_tile():
+        while col >= 0 and self.check_down_square(row, col):
             word.insert(0, self.board.grid[row][col].get_tile())
-            row += 1
+            col += 1
+        print(word)
         return len(word) > 0

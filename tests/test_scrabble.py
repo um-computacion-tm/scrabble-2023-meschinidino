@@ -206,6 +206,5 @@ class TestScrabble(unittest.TestCase):
         game.place_word(tiles, 7, 7, "vertical")
         self.assertTrue(game.check_word_down(7, 7))
 
-
 if __name__ == '__main__':
     unittest.main()

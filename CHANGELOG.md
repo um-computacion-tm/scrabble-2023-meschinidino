@@ -1,3 +1,20 @@
+# 0.1.2 - 2023 - 10 - 02
+### [ADDED]
+
+- Method that checks if there are words to the sides of 
+each letter
+- Exceptions for when the player attempts an "illegal" move
+
+### [WIP]
+
+- Score word method that will add scores if a word crosses another
+- Print board method
+
+### [FIXED]
+
+- Several methods have been fixed to work with newer ones
+- Some methods were improved
+
 # 0.1.1 - 2023 - 09 - 14
 
 ### [ADDED]
