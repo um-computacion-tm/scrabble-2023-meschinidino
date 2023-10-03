@@ -1,3 +1,16 @@
+# 0.1.3 - 2023 - 10 - 03
+
+### [ADDED]
+
+- Function that will get the score for a list of words
+to be used when words are intercepted
+- Method that GETS the word that is intercepted by another word
+- Utils class for general purpose functions
+
+###[FIXED]
+
+- General structure of classes for better clarity
+
 # 0.1.2 - 2023 - 10 - 02
 ### [ADDED]
 

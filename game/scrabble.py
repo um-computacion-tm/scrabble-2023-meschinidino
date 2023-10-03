@@ -27,19 +27,6 @@ class ScrabbleGame:
         for i in range(amount):
             self.players.append(Player())
 
-    @staticmethod
-    def word_score(word: list):
-        score = 0
-        word_multipliers = 0
-        for square in word:
-            if square.multiplier_type == 'word':
-                word_multipliers += square.multiplier
-            score += square.individual_score()
-            square.multiplier_is_up()
-        if word_multipliers != 0:
-            return score * word_multipliers
-        return score
-
     def change_player_index(self):
         if self.current_player_index == len(self.players) - 1:
             self.current_player_index = 0
@@ -58,13 +45,17 @@ class ScrabbleGame:
             self.place_vertical(word, starting_row, starting_column)
 
     def place_horizontal(self, word, starting_row, starting_column):
+        intercepted = []
+        word_made = []
         if starting_column + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
             if self.board.get_square(starting_row, i + starting_column).has_tile():
                 continue
             self.board.place_tile(starting_row, i + starting_column, word[i])
+            intercepted.append(self.check_word_horizontal(starting_row, i + starting_column))
             self.last_word.append(self.board.grid[starting_row][starting_column + i])
+            word_made.append(self.board.grid[starting_row][starting_column + i])
 
     def place_vertical(self, word, starting_row, starting_column):
         if starting_row + len(word) > 15:
@@ -102,34 +93,47 @@ class ScrabbleGame:
     def check_down_square(self, row, col):
         return self.board.grid[row][col + 1].has_tile()
 
+    def check_word_horizontal(self, row, col):
+        left = self.check_word_left(row, col)
+        right = self.check_word_right(row, col)
+        left.extend(right)
+        if len(left) == 0:
+            return ["empty"]
+        return left
+
+    def check_word_vertical(self, row, col):
+        up = self.check_word_up(row, col)
+        down = self.check_word_down(row, col)
+        up.extend(down)
+        if len(up) == 0:
+            return ["empty"]
+        return up
+
     def check_word_left(self, row, col):
         word = []
-        while row >= 0 and self.check_left_square(row, col):
+        while row >= 0 and self.check_left_square(row+1, col):
             word.insert(0, self.board.grid[row][col].get_tile())
             row -= 1
-        print(word)
-        return len(word) > 0
+        return word
 
     def check_word_right(self, row, col):
         word = []
         while row >= 0 and self.check_right_square(row, col):
-            word.insert(0, self.board.grid[row][col].get_tile())
+            word.insert(0, self.board.grid[row+1][col].get_tile())
             row += 1
-        print(word)
-        return len(word) > 0
+        return word
 
     def check_word_up(self, row, col):
         word = []
-        while col >= 0 and self.check_up_square(row, col):
+        while col >= 0 and self.check_up_square(row, col+1):
             word.insert(0, self.board.grid[row][col].get_tile())
             col -= 1
-        print(word)
-        return len(word) > 0
+        return word
 
     def check_word_down(self, row, col):
         word = []
         while col >= 0 and self.check_down_square(row, col):
-            word.insert(0, self.board.grid[row][col].get_tile())
+            word.insert(0, self.board.grid[row][col+1].get_tile())
             col += 1
-        print(word)
-        return len(word) > 0
+        return word
+

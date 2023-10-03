@@ -1,4 +1,5 @@
 from game.scrabble import ScrabbleGame
+from game.utils import *
 
 PLAYERS = 2
 
@@ -33,7 +34,7 @@ class ScrabbleCli:
         word = self.game.players[self.game.current_player_index].give_requested_tiles(word)
         self.game.place_word(word, row, column, direction)
         self.game.players[self.game.current_player_index].forfeit_tiles(word)
-        self.game.players[self.game.current_player_index].increase_score(self.game.word_score(self.game.last_word))
+        self.game.players[self.game.current_player_index].increase_score(word_score(self.game.last_word))
         self.game.change_player_index()
 
     def pass_turn(self):
@@ -94,7 +95,7 @@ class ScrabbleCli:
         if not self.valid_first_word(word, row, column, direction):
             self.game.place_word(word, row, column, direction)
             self.game.players[self.game.current_player_index].forfeit_tiles(word)
-            self.game.players[self.game.current_player_index].increase_score(self.game.word_score(self.game.last_word))
+            self.game.players[self.game.current_player_index].increase_score(word_score(self.game.last_word))
             self.game.change_player_index()
 
     @staticmethod
