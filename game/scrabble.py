@@ -2,6 +2,7 @@ from game.board import Board
 from game.player import Player
 from game.tilebag import Tilebag
 from game.dictionary import Dictionary
+from game.utils import list_word_score
 
 
 class InvalidAction(Exception):
@@ -46,16 +47,15 @@ class ScrabbleGame:
 
     def place_horizontal(self, word, starting_row, starting_column):
         intercepted = []
-        word_made = []
         if starting_column + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
             if self.board.get_square(starting_row, i + starting_column).has_tile():
                 continue
             self.board.place_tile(starting_row, i + starting_column, word[i])
-            intercepted.append(self.check_word_horizontal(starting_row, i + starting_column))
+            word_found = (self.check_word_vertical(starting_row, i + starting_column))
+            intercepted.extend(word_found)
             self.last_word.append(self.board.grid[starting_row][starting_column + i])
-            word_made.append(self.board.grid[starting_row][starting_column + i])
 
     def place_vertical(self, word, starting_row, starting_column):
         if starting_row + len(word) > 15:
@@ -137,3 +137,11 @@ class ScrabbleGame:
             col += 1
         return word
 
+    def show_board(self):
+        print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
+        for row_index, row in enumerate(self.board.grid):
+            print(
+                str(row_index).rjust(2) +
+                '| ' +
+                ' '.join([repr(square) for square in row])
+            )

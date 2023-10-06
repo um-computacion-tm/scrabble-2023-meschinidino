@@ -10,7 +10,7 @@ class TestTiles(unittest.TestCase):
 
     def test_tile_repr(self):
         tile = Tile('A', 1)
-        expected_repr = "Tile(letter='A', value=1)"
+        expected_repr = 'A:1'
         self.assertEqual(repr(tile), expected_repr)
 
     def test_eq_same_objects(self):

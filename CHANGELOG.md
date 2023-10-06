@@ -1,3 +1,18 @@
+# 0.1.4 - 2023 - 10 - 06
+
+### [ADDED]
+
+- Print board method
+
+### [FIXED]
+
+- Changed the way some classes are represented to make them clearer
+- Some methods were changed for better performance
+
+### [WIP]
+
+- Crossed words now get accounted for, but incorrectly. Working on that fix.
+
 # 0.1.3 - 2023 - 10 - 03
 
 ### [ADDED]

@@ -20,7 +20,9 @@ class Board:
     def __init__(self):
         self.rows = ROWS
         self.columns = COLUMNS
-        self.grid = [[Square() for _ in range(self.columns)] for _ in range(self.rows)]
+        self.grid = [[Square(
+
+        ) for _ in range(self.columns)] for _ in range(self.rows)]
         self.add_premium_squares()
 
     def add_premium_squares(self):
@@ -60,20 +62,3 @@ class Board:
 
     def is_board_empty(self):
         return not self.grid[7][7].has_tile()
-
-
-    # def print_board(self):
-    #     columns = []
-    #     for i in range(self.columns):
-    #         columns.append(self.print_row(i))
-    # for i in range(len(columns)):
-    #         if len(str(i))==1:
-    #             print("0" + str(i), columns[i])
-    #             print("--------------------------------------------------------------------------------"
-    #                   "--------------------------------------------------------------------------------"
-    #                   "-------------------------------------")
-    #         else:
-    #             print(i+1, columns[i])
-    #             print("--------------------------------------------------------------------------------"
-    #                   "--------------------------------------------------------------------------------"
-    #                   "-------------------------------------")

@@ -1,4 +1,5 @@
 import unittest
+from io import StringIO
 from unittest.mock import patch
 from game.scrabble import ScrabbleGame, WordOutOfBounds, WordNotValid
 from game.board import Board
@@ -194,7 +195,8 @@ class TestScrabble(unittest.TestCase):
                                                             Tile("S", 1),
                                                             Tile("A", 1)])
 
-    def test_word_check_vertical(self):
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_word_check_vertical(self, mock_stdout):
         game = ScrabbleGame(1)
         tiles = [Tile('A', 1),
                  Tile('R', 1),
@@ -206,18 +208,18 @@ class TestScrabble(unittest.TestCase):
         game.board.grid[7][6].put_tile(Tile("S", 1))
         game.board.grid[7][7].put_tile(Tile("A", 1))
         self.assertEqual(game.check_word_vertical(7, 6), [Tile("C", 1),
-                                                            Tile("A", 1),
-                                                            Tile("S", 1),
-                                                            Tile("A", 1)])
-
+                                                          Tile("A", 1),
+                                                          Tile("S", 1),
+                                                          Tile("A", 1)])
+        game.show_board()
 
     def test_word_check_empty_horizontal(self):
         game = ScrabbleGame(1)
-        self.assertEqual(game.check_word_horizontal(7,7), ["empty"])
+        self.assertEqual(game.check_word_horizontal(7, 7), ["empty"])
 
     def test_word_check_empty_vertical(self):
         game = ScrabbleGame(1)
-        self.assertEqual(game.check_word_vertical(7,7), ["empty"])
+        self.assertEqual(game.check_word_vertical(7, 7), ["empty"])
 
 
 if __name__ == '__main__':

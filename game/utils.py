@@ -14,6 +14,12 @@ def word_score(word: list):
 def list_word_score(words):
     score = 0
     for word in words:
-        if word != "empty":
-            score += word_score(word)
+        score += get_score_tiles(word)
+    return score
+
+
+def get_score_tiles(word):
+    score = 0
+    for letter in word:
+        score += letter.get_value()
     return score
