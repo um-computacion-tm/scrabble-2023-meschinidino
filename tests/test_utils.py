@@ -52,6 +52,14 @@ class MyTestCase(unittest.TestCase):
                   Tile("A", 1)]]
         self.assertEqual(list_word_score(words), 12)
 
+    def test_word_validity(self):
+        game = Board()
+        self.assertTrue(check_word_validity([Tile('A', 1),
+                                             Tile('R', 1),
+                                             Tile('B', 1),
+                                             Tile('O', 1),
+                                             Tile('L', 1)]))
+
 
 if __name__ == '__main__':
     unittest.main()

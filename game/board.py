@@ -1,4 +1,5 @@
 from game.square import Square
+from game.utils import check_word_validity
 
 COLUMNS = 15
 ROWS = 15
@@ -16,12 +17,19 @@ class PlacementOutOfBounds(Exception):
     pass
 
 
+class WordNotValid(Exception):
+    pass
+
+
+class WordOutOfBounds(Exception):
+    pass
+
+
 class Board:
     def __init__(self):
         self.rows = ROWS
         self.columns = COLUMNS
         self.grid = [[Square(
-
         ) for _ in range(self.columns)] for _ in range(self.rows)]
         self.add_premium_squares()
 
@@ -62,3 +70,100 @@ class Board:
 
     def is_board_empty(self):
         return not self.grid[7][7].has_tile()
+
+    def show_board(self):
+        print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
+        for row_index, row in enumerate(self.grid):
+            print(
+                str(row_index).rjust(2) +
+                '| ' +
+                ' '.join([repr(square) for square in row])
+            )
+
+    def place_word(self, word, starting_row, starting_column, direction):
+        self.last_word = []
+        if word is None:
+            print(WordNotValid)
+        if not check_word_validity(word):
+            raise WordNotValid
+        if direction.lower() == 'horizontal':
+            self.place_horizontal(word, starting_row, starting_column)
+        if direction.lower() == 'vertical':
+            self.place_vertical(word, starting_row, starting_column)
+
+    def place_horizontal(self, word, starting_row, starting_column):
+        intercepted = []
+        if starting_column + len(word) > 15:
+            raise WordOutOfBounds
+        for i in range(len(word)):
+            if self.get_square(starting_row, i + starting_column).has_tile():
+                continue
+            self.place_tile(starting_row, i + starting_column, word[i])
+            word_found = (self.check_word_vertical(starting_row, i + starting_column))
+            intercepted.extend(word_found)
+            self.last_word.append(self.grid[starting_row][starting_column + i])
+
+    def place_vertical(self, word, starting_row, starting_column):
+        if starting_row + len(word) > 15:
+            raise WordOutOfBounds
+        for i in range(len(word)):
+            if self.get_square(starting_row + i, starting_column).has_tile():
+                continue
+            self.place_tile(i + starting_row, starting_column, word[i])
+            self.last_word.append(self.grid[starting_row + i][starting_column])
+
+    def check_left_square(self, row, col):
+        return self.grid[row - 1][col].has_tile()
+
+    def check_right_square(self, row, col):
+        return self.grid[row + 1][col].has_tile()
+
+    def check_up_square(self, row, col):
+        return self.grid[row][col - 1].has_tile()
+
+    def check_down_square(self, row, col):
+        return self.grid[row][col + 1].has_tile()
+
+    def check_word_horizontal(self, row, col):
+        left = self.check_word_left(row, col)
+        right = self.check_word_right(row, col)
+        left.extend(right)
+        if len(left) == 0:
+            return ["empty"]
+        return left
+
+    def check_word_vertical(self, row, col):
+        up = self.check_word_up(row, col)
+        down = self.check_word_down(row, col)
+        up.extend(down)
+        if len(up) == 0:
+            return ["empty"]
+        return up
+
+    def check_word_left(self, row, col):
+        word = []
+        while row >= 0 and self.check_left_square(row + 1, col):
+            word.insert(0, self.grid[row][col].get_tile())
+            row -= 1
+        return word
+
+    def check_word_right(self, row, col):
+        word = []
+        while row >= 0 and self.check_right_square(row, col):
+            word.insert(0, self.grid[row + 1][col].get_tile())
+            row += 1
+        return word
+
+    def check_word_up(self, row, col):
+        word = []
+        while col >= 0 and self.check_up_square(row, col + 1):
+            word.insert(0, self.grid[row][col].get_tile())
+            col -= 1
+        return word
+
+    def check_word_down(self, row, col):
+        word = []
+        while col >= 0 and self.check_down_square(row, col):
+            word.insert(0, self.grid[row][col + 1].get_tile())
+            col += 1
+        return word

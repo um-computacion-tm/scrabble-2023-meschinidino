@@ -1,3 +1,8 @@
+from game.dictionary import Dictionary
+
+dictionary = Dictionary("dictionaries/dictionary.txt")
+
+
 def word_score(word: list):
     score = 0
     word_multipliers = 0
@@ -23,3 +28,10 @@ def get_score_tiles(word):
     for letter in word:
         score += letter.get_value()
     return score
+
+
+def check_word_validity(word):
+    check = ""
+    for letter in word:
+        check += letter.get_letter()
+    return dictionary.has_word(check.lower())

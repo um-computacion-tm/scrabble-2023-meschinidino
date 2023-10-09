@@ -2,18 +2,10 @@ from game.board import Board
 from game.player import Player
 from game.tilebag import Tilebag
 from game.dictionary import Dictionary
-from game.utils import list_word_score
+from game.utils import *
 
 
 class InvalidAction(Exception):
-    pass
-
-
-class WordNotValid(Exception):
-    pass
-
-
-class WordOutOfBounds(Exception):
     pass
 
 
@@ -23,6 +15,7 @@ class ScrabbleGame:
         self.tilebag = Tilebag()
         self.players = []
         self.current_player_index = 0
+        self.game_state = None
         self.dictionary = Dictionary('dictionaries/dictionary.txt')
         self.last_word = []
         for i in range(amount):
@@ -34,114 +27,80 @@ class ScrabbleGame:
         else:
             self.current_player_index += 1
 
-    def place_word(self, word, starting_row, starting_column, direction):
-        self.last_word = []
-        if word is None:
-            print(InvalidAction)
-        if not self.check_word_validity(word):
-            raise WordNotValid
-        if direction.lower() == 'horizontal':
-            self.place_horizontal(word, starting_row, starting_column)
-        if direction.lower() == 'vertical':
-            self.place_vertical(word, starting_row, starting_column)
-
-    def place_horizontal(self, word, starting_row, starting_column):
-        intercepted = []
-        if starting_column + len(word) > 15:
-            raise WordOutOfBounds
-        for i in range(len(word)):
-            if self.board.get_square(starting_row, i + starting_column).has_tile():
-                continue
-            self.board.place_tile(starting_row, i + starting_column, word[i])
-            word_found = (self.check_word_vertical(starting_row, i + starting_column))
-            intercepted.extend(word_found)
-            self.last_word.append(self.board.grid[starting_row][starting_column + i])
-
-    def place_vertical(self, word, starting_row, starting_column):
-        if starting_row + len(word) > 15:
-            raise WordOutOfBounds
-        for i in range(len(word)):
-            if self.board.get_square(starting_row + i, starting_column).has_tile():
-                continue
-            self.board.place_tile(i + starting_row, starting_column, word[i])
-            self.last_word.append(self.board.grid[starting_row + i][starting_column])
-
     def get_scores(self):
         scores = {}
         for player in self.players:
             scores[player.get_name()] = player.get_score()
         return scores
 
-    def check_word_validity(self, word):
-        check = ""
-        for letter in word:
-            check += letter.get_letter()
-        return self.dictionary.has_word(check.lower())
-
     def check_first_turn(self):
         return self.board.is_board_empty()
 
-    def check_left_square(self, row, col):
-        return self.board.grid[row - 1][col].has_tile()
+    def play_turn(self):
+        word = input("Give a word to enter: ").lower()
+        row = int(input("State starting row: "))
+        column = int(input("State starting column: "))
+        direction = input("State direction (horizontal or vertical: )")
+        word = self.players[self.current_player_index].give_requested_tiles(word)
+        self.board.place_word(word, row, column, direction)
+        self.players[self.current_player_index].forfeit_tiles(word)
+        self.players[self.current_player_index].increase_score(word_score(self.last_word))
+        self.change_player_index()
 
-    def check_right_square(self, row, col):
-        return self.board.grid[row + 1][col].has_tile()
+    def pass_turn(self):
+        self.change_player_index()
 
-    def check_up_square(self, row, col):
-        return self.board.grid[row][col - 1].has_tile()
+    def draw_tiles(self):
+        amount = int(input("How many tiles do you want to draw? "))
+        self.players[self.current_player_index].draw_tiles(self.tilebag, amount)
+        self.change_player_index()
 
-    def check_down_square(self, row, col):
-        return self.board.grid[row][col + 1].has_tile()
+    def check_tiles(self):
+        if len(self.tilebag.tiles) <= 0:
+            self.end_game()
 
-    def check_word_horizontal(self, row, col):
-        left = self.check_word_left(row, col)
-        right = self.check_word_right(row, col)
-        left.extend(right)
-        if len(left) == 0:
-            return ["empty"]
-        return left
+    def show_scores(self):
+        scores = self.get_scores()
+        for element in scores:
+            print("Score for", element, ":", scores[element])
 
-    def check_word_vertical(self, row, col):
-        up = self.check_word_up(row, col)
-        down = self.check_word_down(row, col)
-        up.extend(down)
-        if len(up) == 0:
-            return ["empty"]
-        return up
+    def game_state_start(self):
+        self.game_state = 'ongoing'
 
-    def check_word_left(self, row, col):
-        word = []
-        while row >= 0 and self.check_left_square(row+1, col):
-            word.insert(0, self.board.grid[row][col].get_tile())
-            row -= 1
-        return word
+    def end_game(self):
+        self.game_state = 'over'
 
-    def check_word_right(self, row, col):
-        word = []
-        while row >= 0 and self.check_right_square(row, col):
-            word.insert(0, self.board.grid[row+1][col].get_tile())
-            row += 1
-        return word
+    def start_player_tiles(self):
+        for player in self.players:
+            player.draw_tiles(self.tilebag, 7)
 
-    def check_word_up(self, row, col):
-        word = []
-        while col >= 0 and self.check_up_square(row, col+1):
-            word.insert(0, self.board.grid[row][col].get_tile())
-            col -= 1
-        return word
+    def get_player_names(self):
+        for i in range(len(self.players)):
+            self.players[i].set_name(input(f"Player {i + 1} state your name: "))
 
-    def check_word_down(self, row, col):
-        word = []
-        while col >= 0 and self.check_down_square(row, col):
-            word.insert(0, self.board.grid[row][col+1].get_tile())
-            col += 1
-        return word
+    def show_tiles(self):
+        tiles = self.players[self.current_player_index].show_tiles()
+        print(tiles)
+
+    def first_turn(self):
+        print("Since there is no word in the center, please place your word there to start the game")
+        word = input("Give a word to enter: ").lower()
+        row = int(input("State starting row: "))
+        column = int(input("State starting column: "))
+        direction = input("State direction (horizontal or vertical: )")
+        word = self.players[self.current_player_index].give_requested_tiles(word)
+        if not self.valid_first_word(word, row, column, direction):
+            self.board.place_word(word, row, column, direction)
+            self.players[self.current_player_index].forfeit_tiles(word)
+            self.players[self.current_player_index].increase_score(word_score(self.last_word))
+            self.change_player_index()
 
     def show_board(self):
-        print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
-        for row_index, row in enumerate(self.board.grid):
-            print(
-                str(row_index).rjust(2) +
-                '| ' +
-                ' '.join([repr(square) for square in row])
-            )
+        self.board.show_board()
+
+    @staticmethod
+    def valid_first_word(word, starting_row, starting_column, direction):
+        mock_board = Board()
+        mock_board.place_word(word, starting_row, starting_column, direction)
+        return mock_board.is_board_empty()
+
