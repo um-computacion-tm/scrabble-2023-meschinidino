@@ -32,6 +32,7 @@ class Board:
         self.grid = [[Square(
         ) for _ in range(self.columns)] for _ in range(self.rows)]
         self.add_premium_squares()
+        self.last_word = []
 
     def add_premium_squares(self):
         for coordinate in TRIPLE_WORD_SCORE:

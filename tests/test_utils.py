@@ -21,7 +21,6 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(6, word_score(letters))
 
     def test_word_score_multipliers(self):
-        game = ScrabbleGame(1)
         board = Board()
         board.grid[7][7].set_multiplier(2)
         board.grid[7][8].set_word_multiplier(2)
@@ -33,7 +32,7 @@ class MyTestCase(unittest.TestCase):
         board.place_tile(7, 11, Tile('L', 1))
         for i in range(5):
             letters.append(board.get_square(7, 7 + i))
-        self.assertEqual(8, word_score(letters))
+        self.assertEqual(16, word_score(letters))
 
     def test_word_list_scores(self):
         words = [[Tile("C", 1),

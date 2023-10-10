@@ -47,6 +47,7 @@ class Square:
         self.letter = tile
 
     def set_word_multiplier(self, amount):
+        self.multiplier_type = 'word'
         self.multiplier = amount
 
     def __repr__(self):

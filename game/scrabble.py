@@ -17,7 +17,6 @@ class ScrabbleGame:
         self.current_player_index = 0
         self.game_state = None
         self.dictionary = Dictionary('dictionaries/dictionary.txt')
-        self.last_word = []
         for i in range(amount):
             self.players.append(Player())
 
@@ -36,7 +35,7 @@ class ScrabbleGame:
     def check_first_turn(self):
         return self.board.is_board_empty()
 
-    def play_turn(self):
+    def play_word(self):
         word = input("Give a word to enter: ").lower()
         row = int(input("State starting row: "))
         column = int(input("State starting column: "))
@@ -44,7 +43,7 @@ class ScrabbleGame:
         word = self.players[self.current_player_index].give_requested_tiles(word)
         self.board.place_word(word, row, column, direction)
         self.players[self.current_player_index].forfeit_tiles(word)
-        self.players[self.current_player_index].increase_score(word_score(self.last_word))
+        self.players[self.current_player_index].increase_score(word_score(self.board.last_word))
         self.change_player_index()
 
     def pass_turn(self):
@@ -82,25 +81,25 @@ class ScrabbleGame:
         tiles = self.players[self.current_player_index].show_tiles()
         print(tiles)
 
-    def first_turn(self):
-        print("Since there is no word in the center, please place your word there to start the game")
-        word = input("Give a word to enter: ").lower()
-        row = int(input("State starting row: "))
-        column = int(input("State starting column: "))
-        direction = input("State direction (horizontal or vertical: )")
-        word = self.players[self.current_player_index].give_requested_tiles(word)
-        if not self.valid_first_word(word, row, column, direction):
-            self.board.place_word(word, row, column, direction)
-            self.players[self.current_player_index].forfeit_tiles(word)
-            self.players[self.current_player_index].increase_score(word_score(self.last_word))
-            self.change_player_index()
+    # def first_turn(self):
+    #     print("Since there is no word in the center, please place your word there to start the game")
+    #     word = input("Give a word to enter: ").lower()
+    #     row = int(input("State starting row: "))
+    #     column = int(input("State starting column: "))
+    #     direction = input("State direction (horizontal or vertical: )")
+    #     word = self.players[self.current_player_index].give_requested_tiles(word)
+    #     if not self.valid_first_word(word, row, column, direction):
+    #         self.board.place_word(word, row, column, direction)
+    #         self.players[self.current_player_index].forfeit_tiles(word)
+    #         self.players[self.current_player_index].increase_score(word_score(self.last_word))
+    #         self.change_player_index()
 
     def show_board(self):
         self.board.show_board()
-
-    @staticmethod
-    def valid_first_word(word, starting_row, starting_column, direction):
-        mock_board = Board()
-        mock_board.place_word(word, starting_row, starting_column, direction)
-        return mock_board.is_board_empty()
+    #
+    # @staticmethod
+    # def valid_first_word(word, starting_row, starting_column, direction):
+    #     mock_board = Board()
+    #     mock_board.place_word(word, starting_row, starting_column, direction)
+    #     return mock_board.is_board_empty()
 
