@@ -110,8 +110,6 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board.grid[10][7].letter, Tile('O', 1))
         self.assertEqual(board.grid[11][7].letter, Tile('L', 1))
 
-
-
     def test_not_valid(self):
         board = Board()
         tiles = [Tile('L', 1),
@@ -227,6 +225,11 @@ class TestBoard(unittest.TestCase):
     def test_word_check_empty_vertical(self):
         board = Board()
         self.assertEqual(board.check_word_vertical(7, 7), ["empty"])
+
+    def test_word_none(self):
+        board = Board()
+        with self.assertRaises(WordNotValid):
+            board.place_word(None, 7, 7, "horizontal")
 
 
 if __name__ == '__main__':

@@ -7,19 +7,18 @@ PLAYERS = 2
 class ScrabbleCli:
     def __init__(self):
         self.game = ScrabbleGame(PLAYERS)
-        self.game_state = None
         self.VALID_ACTIONS = {
             'pass': self.game.pass_turn,
-            'play': self.game.play_turn,
+            'word': self.game.play_word,
             'draw': self.game.draw_tiles,
             'quit': self.game.end_game,
-            'scores': self.game.show_scores,
-            'tiles': self.game.show_tiles,
-            'board': self.game.show_board
+            'scores': self.show_scores,
+            'tiles': self.show_tiles,
+            'board': self.show_board
         }
 
     def player_turn(self):
-        action = input("What would you like to do? (play, pass, draw, scores, quit, tiles, board) ").lower()
+        action = input("What would you like to do? (word, pass, draw, scores, quit, tiles, board) ").lower()
         chosen_action = self.VALID_ACTIONS.get(action)
         if chosen_action:
             chosen_action()
@@ -32,10 +31,30 @@ class ScrabbleCli:
         self.game.get_player_names()
         self.game.start_player_tiles()
         while True:
-            if self.game.check_first_turn():
-                self.game.first_turn()
-                continue
             self.game.check_tiles()
-            if self.game_state == 'over':
+            if self.game.game_state == 'over':
                 break
             self.player_turn()
+
+    def show_scores(self):
+        scores = self.game.get_scores()
+        for element in scores:
+            print(f"Score for {element}: {scores[element]}")
+
+    def show_board(self):
+        self.game.board.show_board()
+
+    def show_tiles(self):
+        tiles = self.game.players[self.game.current_player_index].show_tiles()
+        print(tiles)
+
+    def play_word(self):
+        word = input("Give a word to enter: ").lower()
+        row = int(input("State starting row: "))
+        column = int(input("State starting column: "))
+        direction = input("State direction (horizontal or vertical: )")
+        self.game.play_word(word, row, column, direction)
+
+    def draw_tiles(self):
+        amount = int(input("How many tiles do you want to draw? "))
+        self.game.draw_tiles(amount)

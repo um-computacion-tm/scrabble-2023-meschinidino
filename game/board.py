@@ -84,7 +84,7 @@ class Board:
     def place_word(self, word, starting_row, starting_column, direction):
         self.last_word = []
         if word is None:
-            print(WordNotValid)
+            raise WordNotValid
         if not check_word_validity(word):
             raise WordNotValid
         if direction.lower() == 'horizontal':
