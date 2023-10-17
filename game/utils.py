@@ -35,3 +35,7 @@ def check_word_validity(word):
     for letter in word:
         check += letter.get_letter()
     return dictionary.has_word(check.lower())
+
+
+def is_board_empty(grid):
+    return not grid[7][7].has_tile()

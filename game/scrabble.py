@@ -32,7 +32,7 @@ class ScrabbleGame:
         return scores
 
     def check_first_turn(self):
-        return self.board.is_board_empty()
+        return is_board_empty(self.board.grid)
 
     def play_word(self, word, row, column, direction):
         word = self.players[self.current_player_index].give_requested_tiles(word)

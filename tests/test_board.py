@@ -28,10 +28,6 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board.get_tile(7, 7), Tile('A', 1))
         self.assertEqual(board.grid[7][7].get_multiplier(), 2)
 
-    def test_board_empty(self):
-        board = Board()
-        self.assertTrue(board.is_board_empty())
-
     def test_place_word_horizontal(self):
         board = Board()
         tiles = [Tile('A', 1),

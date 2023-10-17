@@ -63,15 +63,6 @@ class Board:
     def get_tile(self, row, column):
         return self.grid[row][column].get_tile()
 
-    def print_row(self, row_number):
-        squares = []
-        for i in range(self.rows):
-            squares.append(repr(self.grid[i][row_number]))
-        return squares
-
-    def is_board_empty(self):
-        return not self.grid[7][7].has_tile()
-
     def show_board(self):
         print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
         for row_index, row in enumerate(self.grid):
