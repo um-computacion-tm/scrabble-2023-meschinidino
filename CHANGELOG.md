@@ -1,3 +1,60 @@
+# 0.1.5 - 2023 - 10 -06
+
+### [ADDED]
+
+- Scrabble is now playable 
+
+### [FIXED]
+
+- Project structure, class structure
+- Moved methods to classes where they made more sense
+- Fixed and added tests accordingly
+
+# 0.1.4 - 2023 - 10 - 06
+
+### [ADDED]
+
+- Print board method
+
+### [FIXED]
+
+- Changed the way some classes are represented to make them clearer
+- Some methods were changed for better performance
+
+### [WIP]
+
+- Crossed words now get accounted for, but incorrectly. Working on that fix.
+
+# 0.1.3 - 2023 - 10 - 03
+
+### [ADDED]
+
+- Function that will get the score for a list of words
+to be used when words are intercepted
+- Method that GETS the word that is intercepted by another word
+- Utils class for general purpose functions
+
+###[FIXED]
+
+- General structure of classes for better clarity
+
+# 0.1.2 - 2023 - 10 - 02
+### [ADDED]
+
+- Method that checks if there are words to the sides of 
+each letter
+- Exceptions for when the player attempts an "illegal" move
+
+### [WIP]
+
+- Score word method that will add scores if a word crosses another
+- Print board method
+
+### [FIXED]
+
+- Several methods have been fixed to work with newer ones
+- Some methods were improved
+
 # 0.1.1 - 2023 - 09 - 14
 
 ### [ADDED]

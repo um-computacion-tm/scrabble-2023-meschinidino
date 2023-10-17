@@ -8,4 +8,4 @@ WORKDIR /scrabble-2023-meschinidino
 RUN git checkout dev
 RUN pip install -r requirements.txt
 
-CMD [ "sh", "-c", "coverage run -m unittest && coverage report -m && python -m game.main" ]
+CMD [ "sh", "-c", "coverage run -m unittest && coverage report -m && python -m main" ]

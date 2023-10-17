@@ -8,175 +8,79 @@ from io import StringIO
 
 class MyTestCase(unittest.TestCase):
 
-    @patch('builtins.input', side_effect=['play', 'hola', '7', '7', 'horizontal'])
-    def test_turn_word(self, mock_input):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players[scrabblecli.game.current_player_index].tiles = \
+    @patch('sys.stdout', new_callable=StringIO)
+    @patch('builtins.input', side_effect=['hola', '7', '7', 'horizontal', 'quit'])
+    def test_player_turn_play_word(self, mock_input, mock_stdout):
+        cli = ScrabbleCli()
+        cli.game.players[cli.game.current_player_index].tiles = \
             [Tile('H', 1),
              Tile('O', 1),
              Tile('L', 1),
              Tile('A', 1)]
-        scrabblecli.player_turn()
-        self.assertEqual(scrabblecli.game.board.grid[7][7].letter, Tile('H', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][8].letter, Tile('O', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][9].letter, Tile('L', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][10].letter, Tile('A', 1))
-        self.assertEqual(scrabblecli.game.players[scrabblecli.game.current_player_index - 1].score, 4)
+        cli.play_word()
+        self.assertTrue(cli.game.board.grid[7][7].has_tile())
+        self.assertEqual(cli.game.board.grid[7][7].letter, Tile('H', 1))
 
-    @patch('builtins.input', side_effect=['play', 'hola', '7', '7', 'horizontal'])
-    def test_word_double_points(self, mock_input):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players[scrabblecli.game.current_player_index].tiles = \
+    @patch('sys.stdout', new_callable=StringIO)
+    @patch('builtins.input', side_effect=['word', 'hola', '7', '7', 'horizontal'])
+    def test_player_turn_player_turn(self, mock_input, mock_stdout):
+        cli = ScrabbleCli()
+        cli.game.players[cli.game.current_player_index].tiles = \
             [Tile('H', 1),
              Tile('O', 1),
              Tile('L', 1),
              Tile('A', 1)]
-        scrabblecli.game.board.grid[7][7].set_multiplier_type("word")
-        scrabblecli.game.board.grid[7][7].set_word_multiplier(2)
-        scrabblecli.player_turn()
-        self.assertEqual(scrabblecli.game.board.grid[7][7].letter, Tile('H', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][8].letter, Tile('O', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][9].letter, Tile('L', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][10].letter, Tile('A', 1))
-        self.assertEqual(len(scrabblecli.game.players[scrabblecli.game.current_player_index].tiles), 0)
-        self.assertEqual(scrabblecli.game.players[scrabblecli.game.current_player_index - 1].score, 10)
+        cli.player_turn()
+        self.assertTrue(cli.game.board.grid[7][7].has_tile())
+        self.assertEqual(cli.game.board.grid[7][7].letter, Tile('H', 1))
 
-    @patch('builtins.input', side_effect=['draw', '1'])
-    def test_player_draw_cards(self, mock_input):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players[scrabblecli.game.current_player_index].tiles = \
-            [Tile('P', 1),
-             Tile('L', 1),
-             Tile('A', 1),
-             Tile('Y', 1)]
-        scrabblecli.player_turn()
-        self.assertEqual(len(scrabblecli.game.players[scrabblecli.game.current_player_index - 1].tiles), 5)
-
-    @patch('builtins.input', side_effect=['pass'])
-    def test_player_turn_pass(self, mock_input):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.player_turn()
-        self.assertEqual(scrabblecli.game.current_player_index, 1)
-
-    @patch('builtins.input', side_effect=['pass'])
-    def test_last_player_turn(self, mock_input):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.current_player_index = 1
-        scrabblecli.player_turn()
-        self.assertEqual(scrabblecli.game.current_player_index, 0)
-
-    def test_game_over(self):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.end_game()
-        self.assertEqual(scrabblecli.game_state, "over")
-
-    def test_game_state_start(self):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game_state_start()
-        self.assertEqual(scrabblecli.game_state, "ongoing")
-
+    @patch('sys.stdout', new_callable=StringIO)
     @patch('builtins.input', side_effect=['quit'])
-    def test_start_game(self, mock_input):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.start_game()
-        self.assertEqual(scrabblecli.game_state, "over")
-
-    def test_check_empty_tilebag(self):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.tilebag.tiles = []
-        scrabblecli.check_tiles()
-        self.assertEqual(scrabblecli.game_state, "over")
+    def test_player_turn_end(self, mock_input, mock_stdout):
+        cli = ScrabbleCli()
+        cli.player_turn()
+        self.assertTrue(cli.game.game_state, "over")
 
     @patch('sys.stdout', new_callable=StringIO)
-    def test_show_scores(self, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players.pop(1)
-        scrabblecli.game.players[0].set_name("Dino")
-        scrabblecli.show_scores()
-        self.assertEqual(mock_stdout.getvalue().strip(), "Score for Dino : 0")
+    @patch('builtins.input', side_effect=['wordsda'])
+    def test_player_turn_invalid(self, mock_input, mock_stdout):
+        cli = ScrabbleCli()
+        cli.game.players[cli.game.current_player_index].tiles = \
+            [Tile('H', 1),
+             Tile('O', 1),
+             Tile('L', 1),
+             Tile('A', 1)]
+        cli.player_turn()
+        self.assertEqual(mock_stdout.getvalue().strip(), "Action not valid, please choose from: pass, word, draw, "
+                                                              "quit, scores, tiles, board")
 
     @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=['Dino', 'scores', 'quit'])
+    def test_show_player_scores(self, mock_stdout):
+        cli = ScrabbleCli()
+        cli.show_scores()
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_show_player_board(self, mock_stdout):
+        cli = ScrabbleCli()
+        cli.show_board()
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_show_player_tiles(self, mock_stdout):
+        cli = ScrabbleCli()
+        cli.show_tiles()
+
+    @patch('builtins.input', side_effect=['1'])
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_show_player_draw_tiles(self, mock_input, mock_stdout):
+        cli = ScrabbleCli()
+        cli.draw_tiles()
+
+    @patch('builtins.input', side_effect=['Dino', 'Vin', 'quit'])
+    @patch('sys.stdout', new_callable=StringIO)
     def test_start_game(self, mock_input, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        square = Square()
-        square.put_tile(Tile('A', 1))
-        scrabblecli.game.board.grid[7][7] = square
-        scrabblecli.game.players.pop(1)
-        scrabblecli.game.players[0].set_name("Dino")
-        scrabblecli.start_game()
-        self.assertEqual(mock_stdout.getvalue().strip(), 'Score for Dino : 0')
-        self.assertEqual(scrabblecli.game_state, "over")
-
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=['Dino', 'tiles', 'quit'])
-    def test_show_tiles(self, mock_input, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        square = Square()
-        square.put_tile(Tile('A', 1))
-        scrabblecli.game.board.grid[7][7] = square
-        scrabblecli.game.players.pop(1)
-        scrabblecli.game.players[0].set_name("Dino")
-        scrabblecli.start_game()
-        self.assertEqual(mock_stdout.getvalue().strip(), repr(scrabblecli.game.players[0].tiles))
-        self.assertEqual(scrabblecli.game_state, "over")
-
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=['Dino', 'not an action', 'quit'])
-    def test_action_not_valid(self, mock_input, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        square = Square()
-        square.put_tile(Tile('A', 1))
-        scrabblecli.game.board.grid[7][7] = square
-        scrabblecli.game.players.pop(1)
-        scrabblecli.start_game()
-        self.assertEqual(mock_stdout.getvalue().strip(), "Action not valid, please choose from: pass, play, draw, "
-                                                         "quit, scores, tiles")
-        self.assertEqual(scrabblecli.game_state, "over")
-
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=['hola', '7', '7', 'horizontal'])
-    def test_first_turn(self, mock_input, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players.pop(1)
-        scrabblecli.game.players[scrabblecli.game.current_player_index].tiles = \
-            [Tile('H', 1),
-             Tile('O', 1),
-             Tile('L', 1),
-             Tile('A', 1)]
-        scrabblecli.first_turn()
-        self.assertEqual(scrabblecli.game.board.grid[7][7].letter, Tile('H', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][8].letter, Tile('O', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][9].letter, Tile('L', 1))
-        self.assertEqual(scrabblecli.game.board.grid[7][10].letter, Tile('A', 1))
-
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=['hola', '0', '7', 'horizontal'])
-    def test_first_turn_wrong(self, mock_input, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players.pop(1)
-        scrabblecli.game.players[scrabblecli.game.current_player_index].tiles = \
-            [Tile('H', 1),
-             Tile('O', 1),
-             Tile('L', 1),
-             Tile('A', 1)]
-        scrabblecli.first_turn()
-        self.assertFalse(scrabblecli.game.board.grid[0][7].has_tile())
-
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=["Dino", 'hola', '7', '7', 'horizontal', 'quit'])
-    def test_game_start_board_empty(self, mock_input, mock_stdout):
-        scrabblecli = ScrabbleCli()
-        scrabblecli.game.players.pop(1)
-        scrabblecli.game.players[scrabblecli.game.current_player_index].tiles = \
-            [Tile('H', 1),
-             Tile('O', 1),
-             Tile('L', 1),
-             Tile('A', 1)]
-        scrabblecli.start_game()
-        self.assertTrue(scrabblecli.game.board.grid[7][7].has_tile())
-        self.assertEqual(scrabblecli.game.board.grid[7][7].letter, Tile('H', 1))
-
+        cli = ScrabbleCli()
+        cli.start_game()
+        self.assertEqual(cli.game.game_state, "over")
 
 
 if __name__ == '__main__':

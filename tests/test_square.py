@@ -69,11 +69,11 @@ class TestSquare(unittest.TestCase):
         square.put_tile(Tile('A', 1))
         square.set_multiplier_type('Letter')
         square.set_multiplier(2)
-        self.assertEqual((repr(square)), 'A, 1, x2 Letter')
+        self.assertEqual((repr(square)), 'A:1')
 
     def test_give_info_empty(self):
         square = Square()
-        self.assertEqual((repr(square)), "||  |x1||")
+        self.assertEqual((repr(square)), '   ')
 
 
 if __name__ == '__main__':
