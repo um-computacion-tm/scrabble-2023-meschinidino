@@ -9,7 +9,7 @@ class ScrabbleCli:
         self.game = ScrabbleGame(PLAYERS)
         self.VALID_ACTIONS = {
             'pass': self.game.pass_turn,
-            'word': self.game.play_word,
+            'word': self.play_word,
             'draw': self.game.draw_tiles,
             'quit': self.game.end_game,
             'scores': self.show_scores,

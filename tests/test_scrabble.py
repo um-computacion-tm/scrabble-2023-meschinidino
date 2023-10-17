@@ -77,7 +77,6 @@ class TestScrabble(unittest.TestCase):
         self.assertEqual(game.board.grid[7][9].letter, Tile('L', 1))
         self.assertEqual(game.board.grid[7][10].letter, Tile('A', 1))
         self.assertEqual(game.players[game.current_player_index].score, 4)
-
     def test_player_draw_cards(self):
         game = ScrabbleGame(1)
         game.players[game.current_player_index].tiles = \

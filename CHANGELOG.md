@@ -1,3 +1,15 @@
+# 0.1.5 - 2023 - 10 -06
+
+### [ADDED]
+
+- Scrabble is now playable 
+
+### [FIXED]
+
+- Project structure, class structure
+- Moved methods to classes where they made more sense
+- Fixed and added tests accordingly
+
 # 0.1.4 - 2023 - 10 - 06
 
 ### [ADDED]
