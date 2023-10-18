@@ -30,7 +30,7 @@ def get_score_tiles(word):
     return score
 
 
-def check_word_validity(word):
+def check_word_dictionary(word):
     check = ""
     for letter in word:
         check += letter.get_letter()

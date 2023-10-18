@@ -400,3 +400,4 @@ fabric.properties
 
 !/qodana.yaml
 /qodana.yaml
+/test.sh

@@ -212,7 +212,6 @@ class TestBoard(unittest.TestCase):
                                                            Tile("A", 1),
                                                            Tile("S", 1),
                                                            Tile("A", 1)])
-        board.show_board()
 
     def test_word_check_empty_horizontal(self):
         board = Board()

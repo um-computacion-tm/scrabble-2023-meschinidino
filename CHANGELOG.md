@@ -1,4 +1,16 @@
-# 0.1.5 - 2023 - 10 -06
+# 0.1.5 - 2023 - 10 - 18
+
+### [ADDED]
+
+- Tests for main file
+- Exceptions in-game
+
+### [FIXED]
+
+- Structure of project
+- Dockerfile was fixed
+
+# 0.1.5 - 2023 - 10 - 17
 
 ### [ADDED]
 

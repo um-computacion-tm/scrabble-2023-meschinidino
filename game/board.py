@@ -1,5 +1,5 @@
 from game.square import Square
-from game.utils import check_word_validity
+from game.utils import check_word_dictionary
 
 COLUMNS = 15
 ROWS = 15
@@ -63,20 +63,11 @@ class Board:
     def get_tile(self, row, column):
         return self.grid[row][column].get_tile()
 
-    def show_board(self):
-        print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
-        for row_index, row in enumerate(self.grid):
-            print(
-                str(row_index).rjust(2) +
-                '| ' +
-                ' '.join([repr(square) for square in row])
-            )
-
     def place_word(self, word, starting_row, starting_column, direction):
         self.last_word = []
         if word is None:
             raise WordNotValid
-        if not check_word_validity(word):
+        if not check_word_dictionary(word):
             raise WordNotValid
         if direction.lower() == 'horizontal':
             self.place_horizontal(word, starting_row, starting_column)

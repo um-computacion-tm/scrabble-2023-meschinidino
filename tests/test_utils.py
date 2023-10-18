@@ -53,11 +53,11 @@ class MyTestCase(unittest.TestCase):
 
     def test_word_validity(self):
         game = Board()
-        self.assertTrue(check_word_validity([Tile('A', 1),
-                                             Tile('R', 1),
-                                             Tile('B', 1),
-                                             Tile('O', 1),
-                                             Tile('L', 1)]))
+        self.assertTrue(check_word_dictionary([Tile('A', 1),
+                                               Tile('R', 1),
+                                               Tile('B', 1),
+                                               Tile('O', 1),
+                                               Tile('L', 1)]))
 
 
 if __name__ == '__main__':

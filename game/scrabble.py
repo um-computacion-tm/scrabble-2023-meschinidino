@@ -2,6 +2,7 @@ from game.board import Board
 from game.player import Player
 from game.tilebag import Tilebag
 from game.utils import *
+from game.dictionary import Dictionary
 
 
 class InvalidAction(Exception):
