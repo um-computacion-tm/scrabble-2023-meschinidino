@@ -3,8 +3,10 @@ from game.utils import *
 
 PLAYERS = 2
 
+
 class ActionNotValid(Exception):
     pass
+
 
 class ScrabbleCli:
     def __init__(self):

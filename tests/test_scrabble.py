@@ -6,6 +6,7 @@ from game.board import Board
 from game.tile import Tile
 from game.square import Square
 from game.tilebag import Tilebag
+from game.scrabble import WordNotInDictionary, WordNotThroughCenter, WordNotValid
 
 
 class TestScrabble(unittest.TestCase):
@@ -60,10 +61,6 @@ class TestScrabble(unittest.TestCase):
         game.pass_turn()
         self.assertEqual(game.current_player_index, 1)
 
-    def test_is_first_turn(self):
-        game = ScrabbleGame(1)
-        self.assertTrue(game.check_first_turn())
-
     def test_turn_word(self):
         game = ScrabbleGame(1)
         game.players[game.current_player_index].tiles = \
@@ -77,6 +74,7 @@ class TestScrabble(unittest.TestCase):
         self.assertEqual(game.board.grid[7][9].letter, Tile('L', 1))
         self.assertEqual(game.board.grid[7][10].letter, Tile('A', 1))
         self.assertEqual(game.players[game.current_player_index].score, 4)
+
     def test_player_draw_cards(self):
         game = ScrabbleGame(1)
         game.players[game.current_player_index].tiles = \
@@ -98,6 +96,61 @@ class TestScrabble(unittest.TestCase):
         game.get_player_names()
         self.assertEqual(game.players[game.current_player_index].get_name(), "Dino")
 
+
+class TestValidateWord(unittest.TestCase):
+    def test_validate_word(self):
+        game = ScrabbleGame(1)
+        word = [Tile('A', 1),
+                Tile('R', 1),
+                Tile('B', 1),
+                Tile('O', 1),
+                Tile('L', 1)]
+        checked = game.validate_word(word, 7, 7, 'horizontal')
+        self.assertEqual(checked, word)
+
+    def test_word_not_in_dict(self):
+        game = ScrabbleGame(1)
+        word = [Tile('A', 1), Tile('A', 1), Tile('A', 1), Tile('A', 1),
+                Tile('A', 1), Tile('A', 1), Tile('A', 1)]
+        with self.assertRaises(WordNotInDictionary):
+            game.validate_word(word, 7, 7, 'horizontal')
+
+    def test_word_not_centered(self):
+        game = ScrabbleGame(1)
+        word = [Tile('A', 1),
+                Tile('R', 1),
+                Tile('B', 1),
+                Tile('O', 1),
+                Tile('L', 1)]
+        with self.assertRaises(WordNotThroughCenter):
+            game.validate_word(word, 6, 6, 'horizontal')
+#
+#     def test_word_overlaps(self):
+#         game = ScrabbleGame(1)
+#         word = [Tile('A', 1),
+#                 Tile('R', 1),
+#                 Tile('B', 1),
+#                 Tile('O', 1),
+#                 Tile('L', 1)]
+#         game.board.grid[7][7].put_tile(Tile('R', 1))
+#         checked = game.validate_word(word, 7, 6, 'horizontal')
+#         self.assertEqual(checked, [Tile('A', 1),
+#                                    Tile('B', 1),
+#                                    Tile('O', 1),
+#                                    Tile('L', 1)])
+#
+#     def test_word_overlaps_fail(self):
+#         game = ScrabbleGame(1)
+#         word = [Tile('A', 1),
+#                 Tile('R', 1),
+#                 Tile('B', 1),
+#                 Tile('O', 1),
+#                 Tile('L', 1)]
+#         game.board.grid[7][7].put_tile(Tile('R', 1))
+#         with self.assertRaises(WordNotValid):
+#             game.validate_word(word, 7, 7, 'horizontal')
+
+
     # @patch('builtins.input', side_effect=['pass'])
     # def test_player_turn_pass(self, mock_input):
     #     game = ScrabbleGame(1)
@@ -105,7 +158,6 @@ class TestScrabble(unittest.TestCase):
     #     self.assertEqual(game.current_player_index, 1)
 
     # @patch('sys.stdout', new_callable=StringIO)
-
 
     #
     # @patch('sys.stdout', new_callable=StringIO)

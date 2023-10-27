@@ -59,6 +59,9 @@ class MyTestCase(unittest.TestCase):
                                                Tile('O', 1),
                                                Tile('L', 1)]))
 
+    def test_board_empty(self):
+        board = Board()
+        self.assertTrue(is_board_empty(board))
 
 if __name__ == '__main__':
     unittest.main()

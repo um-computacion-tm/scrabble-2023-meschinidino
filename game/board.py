@@ -64,26 +64,18 @@ class Board:
         return self.grid[row][column].get_tile()
 
     def place_word(self, word, starting_row, starting_column, direction):
-        self.last_word = []
-        if word is None:
-            raise WordNotValid
-        if not check_word_dictionary(word):
-            raise WordNotValid
         if direction.lower() == 'horizontal':
             self.place_horizontal(word, starting_row, starting_column)
         if direction.lower() == 'vertical':
             self.place_vertical(word, starting_row, starting_column)
 
     def place_horizontal(self, word, starting_row, starting_column):
-        intercepted = []
         if starting_column + len(word) > 15:
             raise WordOutOfBounds
         for i in range(len(word)):
             if self.get_square(starting_row, i + starting_column).has_tile():
                 continue
             self.place_tile(starting_row, i + starting_column, word[i])
-            word_found = (self.check_word_vertical(starting_row, i + starting_column))
-            intercepted.extend(word_found)
             self.last_word.append(self.grid[starting_row][starting_column + i])
 
     def place_vertical(self, word, starting_row, starting_column):
@@ -94,6 +86,10 @@ class Board:
                 continue
             self.place_tile(i + starting_row, starting_column, word[i])
             self.last_word.append(self.grid[starting_row + i][starting_column])
+
+    def check_middle_square(self, row, col):
+        center = self.grid[row][col]
+        return center
 
     def check_left_square(self, row, col):
         return self.grid[row - 1][col].has_tile()
@@ -110,43 +106,47 @@ class Board:
     def check_word_horizontal(self, row, col):
         left = self.check_word_left(row, col)
         right = self.check_word_right(row, col)
+        center = self.check_middle_square(row, col)
+        left.append(center)
         left.extend(right)
-        if len(left) == 0:
-            return ["empty"]
+        if len(left) < 2:
+            return False
         return left
 
     def check_word_vertical(self, row, col):
         up = self.check_word_up(row, col)
         down = self.check_word_down(row, col)
+        center = self.check_middle_square(row, col)
+        up.append(center)
         up.extend(down)
-        if len(up) == 0:
-            return ["empty"]
+        if len(up) < 2:
+            return False
         return up
 
     def check_word_left(self, row, col):
         word = []
-        while row >= 0 and self.check_left_square(row + 1, col):
-            word.insert(0, self.grid[row][col].get_tile())
-            row -= 1
+        while col >= 0 and self.check_left_square(row, col):
+            word.insert(0, self.grid[row][col - 1])
+            col -= 1
         return word
 
     def check_word_right(self, row, col):
         word = []
-        while row >= 0 and self.check_right_square(row, col):
-            word.insert(0, self.grid[row + 1][col].get_tile())
-            row += 1
+        while col >= 0 and self.check_right_square(row, col):
+            word.append(self.grid[row][col + 1])
+            col += 1
         return word
 
     def check_word_up(self, row, col):
         word = []
-        while col >= 0 and self.check_up_square(row, col + 1):
-            word.insert(0, self.grid[row][col].get_tile())
-            col -= 1
+        while row >= 0 and self.check_up_square(row, col):
+            word.insert(0, self.grid[row - 1][col])
+            row -= 1
         return word
 
     def check_word_down(self, row, col):
         word = []
-        while col >= 0 and self.check_down_square(row, col):
-            word.insert(0, self.grid[row][col + 1].get_tile())
-            col += 1
+        while row >= 0 and self.check_down_square(row, col):
+            word.append(self.grid[row + 1][col])
+            row += 1
         return word

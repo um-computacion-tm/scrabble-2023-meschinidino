@@ -5,7 +5,19 @@ from game.utils import *
 from game.dictionary import Dictionary
 
 
+class WordNotInDictionary(Exception):
+    pass
+
+
 class InvalidAction(Exception):
+    pass
+
+
+class WordNotThroughCenter(Exception):
+    pass
+
+
+class WordNotValid(Exception):
     pass
 
 
@@ -31,9 +43,6 @@ class ScrabbleGame:
         for player in self.players:
             scores[player.get_name()] = player.get_score()
         return scores
-
-    def check_first_turn(self):
-        return is_board_empty(self.board.grid)
 
     def play_word(self, word, row, column, direction):
         word = self.players[self.current_player_index].give_requested_tiles(word)
@@ -67,9 +76,25 @@ class ScrabbleGame:
         for i in range(len(self.players)):
             self.players[i].set_name(input(f"Player {i + 1} state your name: "))
 
+    def validate_word(self, word, row, col, direction):
+        if not check_word_dictionary(word):
+            raise WordNotInDictionary
+        if is_board_empty(self.board):
+            if self.validate_word_through_center(word, row, col, direction):
+                raise WordNotThroughCenter
+    #     if letters_on_board(row, col, direction):
+        return word
+
+    def validate_word_through_center(self, word, row, col, direction):
+        board = Board()
+        board.place_word(word, row, col, direction)
+        return is_board_empty(board)
+
+
+
+
     # @staticmethod
     # def valid_first_word(word, starting_row, starting_column, direction):
     #     mock_board = Board()
     #     mock_board.place_word(word, starting_row, starting_column, direction)
     #     return mock_board.is_board_empty()
-

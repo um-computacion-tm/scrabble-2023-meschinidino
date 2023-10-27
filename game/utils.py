@@ -37,5 +37,5 @@ def check_word_dictionary(word):
     return dictionary.has_word(check.lower())
 
 
-def is_board_empty(grid):
-    return not grid[7][7].has_tile()
+def is_board_empty(board):
+    return not board.grid[7][7].has_tile()
