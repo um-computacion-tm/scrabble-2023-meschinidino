@@ -116,13 +116,20 @@ class TestBoard(unittest.TestCase):
     #     with self.assertRaises(WordNotValid):
     #         board.place_word(tiles, 7, 12, 'horizontal')
 
-    def test_check_left(self):
+    def test_check_sides(self):
         board = Board()
         board.grid[7][7].put_tile(Tile('A', 1))
         self.assertTrue(board.check_left_square(8, 7))
         self.assertTrue(board.check_down_square(7, 6))
         self.assertTrue(board.check_right_square(6, 7))
         self.assertTrue(board.check_up_square(7, 8))
+
+    def test_check_sides_empty(self):
+        board = Board()
+        self.assertFalse(board.check_left_square(8, 7))
+        self.assertFalse(board.check_down_square(7, 6))
+        self.assertFalse(board.check_right_square(6, 7))
+        self.assertFalse(board.check_up_square(7, 8))
 
     def test_left_word(self):
         board = Board()
@@ -194,11 +201,6 @@ class TestBoard(unittest.TestCase):
     # @patch('sys.stdout', new_callable=StringIO)
     # def test_word_check_vertical(self, mock_stdout):
     #     board = Board()
-    #     tiles = [Tile('A', 1),
-    #              Tile('R', 1),
-    #              Tile('B', 1),
-    #              Tile('O', 1),
-    #              Tile('L', 1)]
     #     board.grid[7][4].put_tile(Tile("C", 1))
     #     board.grid[7][5].put_tile(Tile("A", 1))
     #     board.grid[7][6].put_tile(Tile("S", 1))

@@ -126,27 +126,27 @@ class Board:
     def check_word_left(self, row, col):
         word = []
         while col >= 0 and self.check_left_square(row, col):
-            word.insert(0, self.grid[row][col - 1])
+            word.insert(0, self.grid[row][col - 1].get_tile())
             col -= 1
         return word
 
     def check_word_right(self, row, col):
         word = []
         while col >= 0 and self.check_right_square(row, col):
-            word.append(self.grid[row][col + 1])
+            word.append(self.grid[row][col + 1].get_tile())
             col += 1
         return word
 
     def check_word_up(self, row, col):
         word = []
         while row >= 0 and self.check_up_square(row, col):
-            word.insert(0, self.grid[row - 1][col])
+            word.insert(0, self.grid[row - 1][col].get_tile())
             row -= 1
         return word
 
     def check_word_down(self, row, col):
         word = []
         while row >= 0 and self.check_down_square(row, col):
-            word.append(self.grid[row + 1][col])
+            word.append(self.grid[row + 1][col].get_tile())
             row += 1
         return word

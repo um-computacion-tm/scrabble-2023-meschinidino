@@ -39,3 +39,19 @@ def check_word_dictionary(word):
 
 def is_board_empty(board):
     return not board.grid[7][7].has_tile()
+
+
+def take_letters_from_word(word, letters):
+    word = word
+    for letter in letters:
+        word = find_letter_in_word(word, letter)
+    return word
+
+
+def find_letter_in_word(word, letter):
+    word = word
+    for i in range(len(word)):
+        if word[i].get_letter() == letter.get_letter():
+            word.pop(i)
+            break
+    return word

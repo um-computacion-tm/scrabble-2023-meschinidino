@@ -63,5 +63,17 @@ class MyTestCase(unittest.TestCase):
         board = Board()
         self.assertTrue(is_board_empty(board))
 
+    def test_take_letters_from_word(self):
+        word = [Tile('A', 1),
+                Tile('R', 1),
+                Tile('B', 1),
+                Tile('O', 1),
+                Tile('L', 1)]
+        result = take_letters_from_word(word, [Tile('A', 1), Tile('O', 1)])
+        self.assertEqual(result, [Tile('R', 1),
+                                  Tile('B', 1),
+                                  Tile('L', 1)])
+
+
 if __name__ == '__main__':
     unittest.main()

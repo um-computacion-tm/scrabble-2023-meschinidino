@@ -77,24 +77,37 @@ class ScrabbleGame:
             self.players[i].set_name(input(f"Player {i + 1} state your name: "))
 
     def validate_word(self, word, row, col, direction):
+        validated_word = word
         if not check_word_dictionary(word):
             raise WordNotInDictionary
         if is_board_empty(self.board):
             if self.validate_word_through_center(word, row, col, direction):
                 raise WordNotThroughCenter
-    #     if letters_on_board(row, col, direction):
-        return word
+        if self.letters_on_board(word, row, col, direction):
+            validated_word = take_letters_from_word(word, self.find_letters_on_board(word, row, col, direction))
+        return validated_word
 
-    def validate_word_through_center(self, word, row, col, direction):
+    @staticmethod
+    def validate_word_through_center(word, row, col, direction):
         board = Board()
         board.place_word(word, row, col, direction)
         return is_board_empty(board)
 
+    def find_letters_on_board(self, word, row, col, direction):
+        letters = []
+        if direction == 'horizontal':
+            for i in range(len(word)):
+                tile = self.board.grid[row][col + i].get_tile()
+                if tile is not None:
+                    letters.append(tile)
 
+        if direction == 'vertical':
+            for i in range(len(word)):
+                tile = self.board.grid[row + i][col].get_tile()
+                if tile is not None:
+                    letters.append(tile)
+        return letters
 
-
-    # @staticmethod
-    # def valid_first_word(word, starting_row, starting_column, direction):
-    #     mock_board = Board()
-    #     mock_board.place_word(word, starting_row, starting_column, direction)
-    #     return mock_board.is_board_empty()
+    def letters_on_board(self, word, row, col, direction):
+        tiles = self.find_letters_on_board(word, row, col, direction)
+        return len(tiles) > 0
