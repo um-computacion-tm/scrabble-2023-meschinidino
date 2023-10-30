@@ -42,17 +42,17 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(cli.game.game_state, "over")
 
     @patch('sys.stdout', new_callable=StringIO)
-    @patch('builtins.input', side_effect=['wordsda'])
-    def test_player_turn_invalid(self, mock_input, mock_stdout):
+    @patch('builtins.input', side_effect=['Dino', 'A', 'wordssssss', 'quit'])
+    def test_player_turn_exception(self, mock_input, mock_stdout):
         cli = ScrabbleCli()
         cli.game.players[cli.game.current_player_index].tiles = \
             [Tile('H', 1),
              Tile('O', 1),
              Tile('L', 1),
              Tile('A', 1)]
-        cli.player_turn()
+        cli.start_game()
         self.assertEqual(mock_stdout.getvalue().strip(), "Action not valid, please choose from: pass, word, draw, "
-                                                              "quit, scores, tiles, board")
+                                                                 "quit, scores, tiles, board")
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_show_player_scores(self, mock_stdout):
@@ -81,6 +81,7 @@ class MyTestCase(unittest.TestCase):
         cli = ScrabbleCli()
         cli.start_game()
         self.assertEqual(cli.game.game_state, "over")
+
 
 
 if __name__ == '__main__':

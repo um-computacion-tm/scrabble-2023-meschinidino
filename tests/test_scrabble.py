@@ -6,6 +6,7 @@ from game.board import Board
 from game.tile import Tile
 from game.square import Square
 from game.tilebag import Tilebag
+from game.scrabble import WordNotInDictionary, WordNotThroughCenter, WordNotValid
 
 
 class TestScrabble(unittest.TestCase):
@@ -60,10 +61,6 @@ class TestScrabble(unittest.TestCase):
         game.pass_turn()
         self.assertEqual(game.current_player_index, 1)
 
-    def test_is_first_turn(self):
-        game = ScrabbleGame(1)
-        self.assertTrue(game.check_first_turn())
-
     def test_turn_word(self):
         game = ScrabbleGame(1)
         game.players[game.current_player_index].tiles = \
@@ -77,6 +74,7 @@ class TestScrabble(unittest.TestCase):
         self.assertEqual(game.board.grid[7][9].letter, Tile('L', 1))
         self.assertEqual(game.board.grid[7][10].letter, Tile('A', 1))
         self.assertEqual(game.players[game.current_player_index].score, 4)
+
     def test_player_draw_cards(self):
         game = ScrabbleGame(1)
         game.players[game.current_player_index].tiles = \
@@ -98,69 +96,79 @@ class TestScrabble(unittest.TestCase):
         game.get_player_names()
         self.assertEqual(game.players[game.current_player_index].get_name(), "Dino")
 
-    # @patch('builtins.input', side_effect=['pass'])
-    # def test_player_turn_pass(self, mock_input):
-    #     game = ScrabbleGame(1)
-    #     game.play_turn()
-    #     self.assertEqual(game.current_player_index, 1)
 
-    # @patch('sys.stdout', new_callable=StringIO)
+class TestValidateWord(unittest.TestCase):
+    def test_validate_word(self):
+        game = ScrabbleGame(1)
+        word = "arbol"
+        checked = game.validate_word(word, 7, 7, 'horizontal')
+        self.assertEqual(checked, [])
 
+    def test_word_not_in_dict(self):
+        game = ScrabbleGame(1)
+        word = "aaaaaaaaa"
+        with self.assertRaises(WordNotInDictionary):
+            game.validate_word(word, 7, 7, 'horizontal')
 
-    #
-    # @patch('sys.stdout', new_callable=StringIO)
-    # @patch('builtins.input', side_effect=['Dino', 'not an action', 'quit'])
-    # def test_action_not_valid(self, mock_input, mock_stdout):
-    #     game = ScrabbleGame(1)
-    #     square = Square()
-    #     square.put_tile(Tile('A', 1))
-    #     game.board.grid[7][7] = square
-    #     game.game_state_start()
-    #     self.assertEqual(mock_stdout.getvalue().strip(), "Action not valid, please choose from: pass, play, draw, "
-    #                                                      "quit, scores, tiles, board")
-    #     self.assertEqual(game.game_state, "over")
-    #
-    # @patch('sys.stdout', new_callable=StringIO)
-    # @patch('builtins.input', side_effect=['hola', '7', '7', 'horizontal'])
-    # def test_first_turn(self, mock_input, mock_stdout):
-    #     game = ScrabbleGame(1)
-    #
-    #     game.players[game.current_player_index].tiles = \
-    #         [Tile('H', 1),
-    #          Tile('O', 1),
-    #          Tile('L', 1),
-    #          Tile('A', 1)]
-    #     game.first_turn()
-    #     self.assertEqual(game.board.grid[7][7].letter, Tile('H', 1))
-    #     self.assertEqual(game.board.grid[7][8].letter, Tile('O', 1))
-    #     self.assertEqual(game.board.grid[7][9].letter, Tile('L', 1))
-    #     self.assertEqual(game.board.grid[7][10].letter, Tile('A', 1))
-    #
-    # @patch('sys.stdout', new_callable=StringIO)
-    # @patch('builtins.input', side_effect=['hola', '0', '7', 'horizontal'])
-    # def test_first_turn_wrong(self, mock_input, mock_stdout):
-    #     game = ScrabbleGame(1)
-    #
-    #     game.players[game.current_player_index].tiles = \
-    #         [Tile('H', 1),
-    #          Tile('O', 1),
-    #          Tile('L', 1),
-    #          Tile('A', 1)]
-    #     game.first_turn()
-    #     self.assertFalse(game.board.grid[0][7].has_tile())
-    #
-    # @patch('sys.stdout', new_callable=StringIO)
-    # @patch('builtins.input', side_effect=["Dino", 'hola', '7', '7', 'horizontal', 'quit'])
-    # def test_game_start_board_empty(self, mock_input, mock_stdout):
-    #     game = ScrabbleGame(1)
-    #     game.players[game.current_player_index].tiles = \
-    #         [Tile('H', 1),
-    #          Tile('O', 1),
-    #          Tile('L', 1),
-    #          Tile('A', 1)]
-    #     game.game_state_start()
-    #     self.assertTrue(game.board.grid[7][7].has_tile())
-    #     self.assertEqual(game.board.grid[7][7].letter, Tile('H', 1))
+    def test_word_not_centered(self):
+        game = ScrabbleGame(1)
+        word = "arbol"
+        with self.assertRaises(WordNotThroughCenter):
+            game.validate_word(word, 6, 6, 'horizontal')
+
+    def test_find_letters_on_board(self):
+        game = ScrabbleGame(1)
+        game.players[game.current_player_index].tiles = \
+            [Tile('R', 1),
+             Tile('B', 1),
+             Tile('L', 1)]
+        game.board.grid[7][7].set_tile(Tile('A', 1))
+        game.board.grid[7][10].set_tile(Tile('O', 1))
+        letters = game.find_letters_on_board('arbol', 7, 7, 'horizontal')
+        self.assertEqual(letters, [Tile('A', 1), Tile('O', 1)])
+
+    def test_find_letters_on_board_vertical(self):
+        game = ScrabbleGame(1)
+        game.board.grid[7][7].set_tile(Tile('A', 1))
+        game.board.grid[10][7].set_tile(Tile('O', 1))
+        letters = game.find_letters_on_board('arbol', 7, 7, 'vertical')
+        self.assertEqual(letters, [Tile('A', 1), Tile('O', 1)])
+
+    def test_validate_word_final(self):
+        game = ScrabbleGame(1)
+        word = "arbol"
+        game.board.grid[7][7].set_tile(Tile('A', 1))
+        game.board.grid[10][7].set_tile(Tile('O', 1))
+        self.assertEqual(game.validate_word(word, 7, 7, 'vertical'), [Tile('A', 1), Tile('O', 1)])
+
+    def test_combine_word_and_hand(self):
+        game = ScrabbleGame(1)
+        game.players[game.current_player_index].tiles = \
+            [Tile('R', 1),
+             Tile('B', 1),
+             Tile('L', 1)]
+        word = [Tile('A', 1),
+                Tile('R', 1),
+                Tile('B', 1),
+                Tile('O', 1),
+                Tile('L', 1)]
+        combined = game.combine_board_and_hand([Tile('A', 1), Tile('O', 1)], 'arbol')
+        self.assertEqual(combined, word)
+
+    def test_combine_word_and_hand2(self):
+        game = ScrabbleGame(1)
+        tiles = \
+            [Tile('H', 1),
+             Tile('O', 1),
+             Tile('L', 1),
+             Tile('A', 1)]
+        game.players[game.current_player_index].tiles = \
+            [Tile('H', 1),
+             Tile('O', 1),
+             Tile('L', 1),
+             Tile('A', 1)]
+        combined = game.combine_board_and_hand([], "hola")
+        self.assertEqual(combined, tiles)
 
 
 if __name__ == '__main__':

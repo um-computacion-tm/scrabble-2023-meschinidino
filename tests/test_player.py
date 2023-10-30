@@ -57,8 +57,8 @@ class TestPlayer(unittest.TestCase):
     @patch('sys.stdout', new_callable=StringIO)
     def test_give_tiles_empty(self, mock_stdout):
         player = Player()
-        player.give_requested_tiles("word")
-        self.assertEqual(mock_stdout.getvalue().strip(), "Letter 'w' not found in player's tiles")
+        with self.assertRaises(LetterNotFound):
+            player.give_requested_tiles("word")
 
     def test_forfeit_tile(self):
         player = Player()

@@ -4,6 +4,10 @@ from game.utils import *
 PLAYERS = 2
 
 
+class ActionNotValid(Exception):
+    pass
+
+
 class ScrabbleCli:
     def __init__(self):
         self.game = ScrabbleGame(PLAYERS)
@@ -24,17 +28,20 @@ class ScrabbleCli:
             chosen_action()
         else:
             options = ', '.join(self.VALID_ACTIONS.keys())
-            print(f"Action not valid, please choose from: {options}")
+            raise ActionNotValid(f"Action not valid, please choose from: {options}")
 
     def start_game(self):
         self.game.game_state_start()
         self.game.get_player_names()
         self.game.start_player_tiles()
         while True:
-            self.game.check_tiles()
-            if self.game.game_state == 'over':
-                break
-            self.player_turn()
+            try:
+                self.game.check_tiles()
+                if self.game.game_state == 'over':
+                    break
+                self.player_turn()
+            except Exception as e:
+                print(e)
 
     def show_scores(self):
         scores = self.game.get_scores()
@@ -42,7 +49,13 @@ class ScrabbleCli:
             print(f"Score for {element}: {scores[element]}")
 
     def show_board(self):
-        self.game.board.show_board()
+        print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
+        for row_index, row in enumerate(self.game.board.grid):
+            print(
+                str(row_index).rjust(2) +
+                '| ' +
+                ' '.join([repr(square) for square in row])
+            )
 
     def show_tiles(self):
         tiles = self.game.players[self.game.current_player_index].show_tiles()

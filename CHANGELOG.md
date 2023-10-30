@@ -1,4 +1,24 @@
-# 0.1.5 - 2023 - 10 -06
+# 1.0.0 - 2023 - 10 - 30
+
+### WORKING VERSION
+### [FIXED]
+
+- Words can now be placed correctly
+- Multiple bugs that ocurred when placing words
+
+# 0.1.5 - 2023 - 10 - 18
+
+### [ADDED]
+
+- Tests for main file
+- Exceptions in-game
+
+### [FIXED]
+
+- Structure of project
+- Dockerfile was fixed
+
+# 0.1.5 - 2023 - 10 - 17
 
 ### [ADDED]
 
