@@ -116,20 +116,6 @@ class TestBoard(unittest.TestCase):
     #     with self.assertRaises(WordNotValid):
     #         board.place_word(tiles, 7, 12, 'horizontal')
 
-    def test_check_sides(self):
-        board = Board()
-        board.grid[7][7].put_tile(Tile('A', 1))
-        self.assertTrue(board.check_left_square(8, 7))
-        self.assertTrue(board.check_down_square(7, 6))
-        self.assertTrue(board.check_right_square(6, 7))
-        self.assertTrue(board.check_up_square(7, 8))
-
-    def test_check_sides_empty(self):
-        board = Board()
-        self.assertFalse(board.check_left_square(8, 7))
-        self.assertFalse(board.check_down_square(7, 6))
-        self.assertFalse(board.check_right_square(6, 7))
-        self.assertFalse(board.check_up_square(7, 8))
 
     def test_left_word(self):
         board = Board()
@@ -218,6 +204,9 @@ class TestBoard(unittest.TestCase):
         board = Board()
         self.assertEqual(board.check_word_vertical(7, 7), False)
 
+    def test_word_vh(self):
+        board = Board()
+        self.assertFalse(board.check_word_vh((board.check_word_up, board.check_word_down), 7, 7))
     # def test_word_none(self):
     #     board = Board()
     #     with self.assertRaises(WordNotValid):

@@ -34,6 +34,8 @@ class Player:
 
     def give_requested_tiles(self, word):
         letters = []
+        if word == "":
+            return []
         for letter in word:
             tile = self.find_letter_in_tiles(letter)
             if tile is not None:

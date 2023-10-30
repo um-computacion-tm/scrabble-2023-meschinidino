@@ -88,20 +88,7 @@ class Board:
             self.last_word.append(self.grid[starting_row + i][starting_column])
 
     def check_middle_square(self, row, col):
-        center = self.grid[row][col]
-        return center
-
-    def check_left_square(self, row, col):
-        return self.grid[row - 1][col].has_tile()
-
-    def check_right_square(self, row, col):
-        return self.grid[row + 1][col].has_tile()
-
-    def check_up_square(self, row, col):
-        return self.grid[row][col - 1].has_tile()
-
-    def check_down_square(self, row, col):
-        return self.grid[row][col + 1].has_tile()
+        return self.grid[row][col]
 
     def check_word_horizontal(self, row, col):
         return self.check_word_vh((self.check_word_left, self.check_word_right), row, col)
@@ -124,7 +111,7 @@ class Board:
         # if len(up) < 2:
         #     return False
         # return up
-    
+
     def check_word_vh(self, funcs, row, col):
         one_side_func, other_side_func = funcs
         one_side = one_side_func(row, col)
@@ -138,28 +125,28 @@ class Board:
 
     def check_word_left(self, row, col):
         word = []
-        while col >= 0 and self.check_left_square(row, col):
+        while col >= 0 and self.grid[row - 1][col].has_tile():
             word.insert(0, self.grid[row][col - 1].get_tile())
             col -= 1
         return word
 
     def check_word_right(self, row, col):
         word = []
-        while col >= 0 and self.check_right_square(row, col):
+        while col >= 0 and self.grid[row + 1][col].has_tile():
             word.append(self.grid[row][col + 1].get_tile())
             col += 1
         return word
 
     def check_word_up(self, row, col):
         word = []
-        while row >= 0 and self.check_up_square(row, col):
+        while row >= 0 and self.grid[row][col - 1].has_tile():
             word.insert(0, self.grid[row - 1][col].get_tile())
             row -= 1
         return word
 
     def check_word_down(self, row, col):
         word = []
-        while row >= 0 and self.check_down_square(row, col):
+        while row >= 0 and self.grid[row][col + 1].has_tile():
             word.append(self.grid[row + 1][col].get_tile())
             row += 1
         return word

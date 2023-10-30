@@ -53,26 +53,34 @@ class MyTestCase(unittest.TestCase):
 
     def test_word_validity(self):
         game = Board()
-        self.assertTrue(check_word_dictionary([Tile('A', 1),
-                                               Tile('R', 1),
-                                               Tile('B', 1),
-                                               Tile('O', 1),
-                                               Tile('L', 1)]))
+        self.assertTrue(check_word_dictionary('arbol'))
 
     def test_board_empty(self):
         board = Board()
         self.assertTrue(is_board_empty(board))
 
-    def test_take_letters_from_word(self):
-        word = [Tile('A', 1),
-                Tile('R', 1),
-                Tile('B', 1),
-                Tile('O', 1),
-                Tile('L', 1)]
-        result = take_letters_from_word(word, [Tile('A', 1), Tile('O', 1)])
-        self.assertEqual(result, [Tile('R', 1),
-                                  Tile('B', 1),
-                                  Tile('L', 1)])
+    def test_sort_tiles(self):
+        word = 'play'
+        tiles = [Tile('L', 1),
+                 Tile('P', 1),
+                 Tile('Y', 1),
+                 Tile('A', 1)]
+        self.assertEqual([Tile('P', 1),
+             Tile('L', 1),
+             Tile('A', 1),
+             Tile('Y', 1)], sort_tiles_in_word_order(word, tiles))
+
+    def test_find_missing_letters(self):
+        board = [Tile('A', 1), Tile('O', 1)]
+        word = 'arbol'
+        missing = find_missing_letters(word, board)
+        self.assertEqual(missing, 'RBL')
+
+    def test_find_missing_letters2(self):
+        board = []
+        word = 'arbol'
+        missing = find_missing_letters(word, board)
+        self.assertEqual(missing, '')
 
 
 if __name__ == '__main__':

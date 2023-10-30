@@ -1,5 +1,6 @@
 from game.board import Board
 from game.player import Player
+from game.tile import Tile
 from game.tilebag import Tilebag
 from game.utils import *
 from game.dictionary import Dictionary
@@ -45,9 +46,10 @@ class ScrabbleGame:
         return scores
 
     def play_word(self, word, row, column, direction):
-        word = self.players[self.current_player_index].give_requested_tiles(word)
+        on_board = self.validate_word(word, row, column, direction)
+        hand_and_board = self.combine_board_and_hand(on_board, word)
+        word = hand_and_board
         self.board.place_word(word, row, column, direction)
-        self.players[self.current_player_index].forfeit_tiles(word)
         self.players[self.current_player_index].increase_score(word_score(self.board.last_word))
         self.change_player_index()
 
@@ -77,19 +79,22 @@ class ScrabbleGame:
             self.players[i].set_name(input(f"Player {i + 1} state your name: "))
 
     def validate_word(self, word, row, col, direction):
-        validated_word = word
+        validated_word = []
         if not check_word_dictionary(word):
             raise WordNotInDictionary
         if is_board_empty(self.board):
             if self.validate_word_through_center(word, row, col, direction):
                 raise WordNotThroughCenter
         if self.letters_on_board(word, row, col, direction):
-            validated_word = take_letters_from_word(word, self.find_letters_on_board(word, row, col, direction))
+            validated_word = self.find_letters_on_board(word, row, col, direction)
         return validated_word
 
     @staticmethod
     def validate_word_through_center(word, row, col, direction):
         board = Board()
+        mock_word = []
+        for i in range(len(word)):
+            mock_word.append(Tile('A', 1))
         board.place_word(word, row, col, direction)
         return is_board_empty(board)
 
@@ -111,3 +116,15 @@ class ScrabbleGame:
     def letters_on_board(self, word, row, col, direction):
         tiles = self.find_letters_on_board(word, row, col, direction)
         return len(tiles) > 0
+
+    def combine_board_and_hand(self, board, word):
+        ready = []
+        missing = find_missing_letters(word, board)
+        if len(missing) == 0:
+            ready.extend(self.players[self.current_player_index].give_requested_tiles(word))
+            self.players[self.current_player_index].forfeit_tiles(ready)
+        ready.extend(self.players[self.current_player_index].give_requested_tiles(missing))
+        self.players[self.current_player_index].forfeit_tiles(ready)
+        ready.extend(board)
+        return sort_tiles_in_word_order(word, ready)
+
