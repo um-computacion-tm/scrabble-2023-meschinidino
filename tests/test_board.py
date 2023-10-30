@@ -195,18 +195,18 @@ class TestBoard(unittest.TestCase):
     #                                                        Tile("A", 1),
     #                                                        Tile("S", 1),
     #                                                        Tile("A", 1)])
-
-    def test_word_check_empty_horizontal(self):
-        board = Board()
-        self.assertEqual(board.check_word_horizontal(7, 7), False)
-
-    def test_word_check_empty_vertical(self):
-        board = Board()
-        self.assertEqual(board.check_word_vertical(7, 7), False)
-
-    def test_word_vh(self):
-        board = Board()
-        self.assertFalse(board.check_word_vh((board.check_word_up, board.check_word_down), 7, 7))
+    #
+    # def test_word_check_empty_horizontal(self):
+    #     board = Board()
+    #     self.assertEqual(board.check_word_horizontal(7, 7), False)
+    #
+    # def test_word_check_empty_vertical(self):
+    #     board = Board()
+    #     self.assertEqual(board.check_word_vertical(7, 7), False)
+    #
+    # def test_word_vh(self):
+    #     board = Board()
+    #     self.assertFalse(board.check_word_vh((board.check_word_up, board.check_word_down), 7, 7))
     # def test_word_none(self):
     #     board = Board()
     #     with self.assertRaises(WordNotValid):

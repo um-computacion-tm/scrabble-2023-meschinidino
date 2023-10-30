@@ -87,41 +87,41 @@ class Board:
             self.place_tile(i + starting_row, starting_column, word[i])
             self.last_word.append(self.grid[starting_row + i][starting_column])
 
-    def check_middle_square(self, row, col):
-        return self.grid[row][col]
+    # def check_middle_square(self, row, col):
+    #     return self.grid[row][col]
 
-    def check_word_horizontal(self, row, col):
-        return self.check_word_vh((self.check_word_left, self.check_word_right), row, col)
-        # left = self.check_word_left(row, col)
-        # right = self.check_word_right(row, col)
-        # center = self.check_middle_square(row, col)
-        # left.append(center)
-        # left.extend(right)
-        # if len(left) < 2:
-        #     return False
-        # return left
-
-    def check_word_vertical(self, row, col):
-        return self.check_word_vh((self.check_word_up, self.check_word_down), row, col)
-        # up = self.check_word_up(row, col)
-        # down = self.check_word_down(row, col)
-        # center = self.check_middle_square(row, col)
-        # up.append(center)
-        # up.extend(down)
-        # if len(up) < 2:
-        #     return False
-        # return up
-
-    def check_word_vh(self, funcs, row, col):
-        one_side_func, other_side_func = funcs
-        one_side = one_side_func(row, col)
-        other_side = other_side_func(row, col)
-        center = self.check_middle_square(row, col)
-        one_side.append(center)
-        one_side.extend(other_side)
-        if len(one_side) < 2:
-            return False
-        return one_side
+    # def check_word_horizontal(self, row, col):
+    #     return self.check_word_vh((self.check_word_left, self.check_word_right), row, col)
+    #     # left = self.check_word_left(row, col)
+    #     # right = self.check_word_right(row, col)
+    #     # center = self.check_middle_square(row, col)
+    #     # left.append(center)
+    #     # left.extend(right)
+    #     # if len(left) < 2:
+    #     #     return False
+    #     # return left
+    #
+    # def check_word_vertical(self, row, col):
+    #     return self.check_word_vh((self.check_word_up, self.check_word_down), row, col)
+    #     # up = self.check_word_up(row, col)
+    #     # down = self.check_word_down(row, col)
+    #     # center = self.check_middle_square(row, col)
+    #     # up.append(center)
+    #     # up.extend(down)
+    #     # if len(up) < 2:
+    #     #     return False
+    #     # return up
+    #
+    # def check_word_vh(self, funcs, row, col):
+    #     one_side_func, other_side_func = funcs
+    #     one_side = one_side_func(row, col)
+    #     other_side = other_side_func(row, col)
+    #     center = self.check_middle_square(row, col)
+    #     one_side.append(center)
+    #     one_side.extend(other_side)
+    #     if len(one_side) < 2:
+    #         return False
+    #     return one_side
 
     def check_word_left(self, row, col):
         word = []
