@@ -5,6 +5,12 @@ following the rules and mechanics set out in the Wikipedia article on the game o
 game will allow users to play Scrabble games in a console interface, with functionality for the board, tiles, 
 scoring and word validation.
 
+# Instructions:
+- Install docker
+- Clone repo
+- Build docker image from the Dockerfile
+- Run docker image
+- Enjoy =)
 
 # CircleCI Badge
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/um-computacion-tm/scrabble-2023-meschinidino/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/um-computacion-tm/scrabble-2023-meschinidino/tree/main)
